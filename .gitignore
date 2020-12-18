@@ -5,3 +5,5 @@ The C/The C Programming Language Book/x64/Debug
 The C/The C Programming Language Book/x64/Release
 *.iobj
 *.ipdb
+*.exe
+*.ilk

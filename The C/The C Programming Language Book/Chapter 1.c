@@ -1,15 +1,147 @@
 #include "Chapter1.h"
 
-// 1.8 - Character Arrays
+// Common functions
 // ----------------------------------------------------------------------------------------------------------
 #define MAXLINE 1000
+int C_getline(char line[], int maxline);
+void C_copy(char to[], char from[]);
 
-int getline_c(char line[], int maxline);
-void copy_c(char to[], char from[]);
+// 1.10 - External Variables and scope
+// ----------------------------------------------------------------------------------------------------------
+
+// Ex 1-20 TODO: Write a function that substitutes tabs for spaces
+void AO_DeTab(int n)
+{
+
+}
+
+// 1.9 - Character Arrays
+// ----------------------------------------------------------------------------------------------------------
+
+// Ex 1-19 DONE: Write a function that reverses a string
+void
+AO_reverse(char reverse[], char original[], int str_Length)
+{
+	int i, j;
+	for (i = str_Length - 1, j = 0; i >= 0; --i, ++j)
+	{
+		reverse[j] = original[i];
+	}
+	reverse[j] = '\0';
+}
+
+void
+AO_test_reverse_string(void)
+{
+	// Current line length
+	int len;
+
+	// Current input line
+	char line[MAXLINE];
+	char line_Reversed[MAXLINE];
+
+	while ( (len = C_getline(line, MAXLINE)) > 0 )
+	{
+		AO_reverse(line_Reversed, line, len);
+		printf("%s\n", line_Reversed);
+	}
+}
+
+// Ex 1-18 DONE: Remove trailing blanks/tabs remove entirely blank lines
+void
+AO_copy_trailing_WS_Removed(char to[], char from[])
+{
+	int i;
+
+	// Get total string length
+	i = 0;
+	while ( from[i] != '\0' ) ++i;
+
+	int charCount = i;
+
+	int string_new_endpoint = 0;
+
+	if ( !charCount ) return;
+
+	// Scan string back to front until you hit a non whitespace character, that's the new endpoint
+	for (i = charCount - 1; i >= 0; --i)
+	{
+		if ( (from[i] != ' ') &&
+			 (from[i] != '\t') &&
+			 (from[i] != '\n') )
+		{
+			string_new_endpoint = i;
+			break;
+		}
+	}
+	string_new_endpoint = ++i;
+
+	i = 0;
+	// Copy the string front to back into a buffer
+	for (i = 0; i < string_new_endpoint; ++i)
+	{
+		to[i] = from[i];
+	}
+
+	// Insert a null char at the end 
+	to[i] = '\0';
+}
+
+void
+AO_remove_trailing_ws(void)
+{
+	// Current line length
+	int len;
+
+	// Current input line
+	char line[MAXLINE];
+	char line_WS_removed[MAXLINE];
+
+	while ( (len = C_getline(line, MAXLINE)) > 0 )
+	{
+		AO_copy_trailing_WS_Removed(line_WS_removed, line);
+		printf("%s", line_WS_removed);
+	}
+
+}
+
+// Ex 1-17 DONE: Print only lines longer than 80 chars 
+void
+AO_print_longer_than_80(void)
+{
+	// Current line length
+	int len;
+
+	// Current input line
+	char line[MAXLINE];
+
+	while ( (len = C_getline(line, MAXLINE)) > 0 )
+	{
+		if ( len > 80 ) printf("%s", line);
+	}
+
+}
+
+// Ex 1-16 DONE: Print the line length and print as much as possible of the line 
+void
+AO_print_input_length(void)
+{
+	// Current line length
+	int len;
+
+	// Current input line
+	char line[MAXLINE];
+
+	while ( (len = C_getline(line, MAXLINE)) > 0 )
+	{
+		printf("Line Length:%d\n", len);
+		printf("%s", line);
+	}
+}
 
 // Print longest line
 void
-print_longest_line_theirs(void)
+C_print_longest_line(void)
 {
 	// Current line length
 	int len;
@@ -23,12 +155,12 @@ print_longest_line_theirs(void)
 	char longest[MAXLINE];
 
 	max = 0;
-	while ( (len = getline(line, MAXLINE)) > 0 )
+	while ( (len = C_getline(line, MAXLINE)) > 0 )
 	{
 		if ( len > max )
 		{
 			max = len;
-			copy(longest, line);
+			C_copy(longest, line);
 		}
 	}
 
@@ -37,9 +169,10 @@ print_longest_line_theirs(void)
 		printf("%s", longest);
 	}
 }
+#undef MAXLINE
 
 int
-getline_c(char s[], int lim)
+C_getline(char s[], int lim)
 {
 	int c, i;
 
@@ -48,10 +181,13 @@ getline_c(char s[], int lim)
 	// Or your character is not an endline
 	// put the line into the line string
 	for ( i = 0;
-		  i < lim - 1 && (c = getchar()) != EOF && c != '\n';
+		  (c = getchar()) != EOF && c != '\n';
 		  ++i )
 	{
-		s[i] = c;
+		if ( i < lim - 1 )
+		{
+			s[i] = c;
+		}
 	}
 
 	// If the last character was a new line set the second-to-last char as a newline
@@ -69,7 +205,7 @@ getline_c(char s[], int lim)
 }
 
 void
-copy_c(char to[], char from[])
+C_copy(char to[], char from[])
 {
 	int i;
 
@@ -82,7 +218,7 @@ copy_c(char to[], char from[])
 
 #define MAX_CHAR_ARRAY_SIZE 1<<12
 void
-print_longest_line_mine(void)
+AO_print_longest_line(void)
 {
 	int currentChar, lineLength, maxLineLength;
 	char tempLineArray[MAX_CHAR_ARRAY_SIZE];
@@ -131,7 +267,7 @@ print_longest_line_mine(void)
 // 1.8 - Arguments, Call by Value
 // ----------------------------------------------------------------------------------------------------------
 int
-pow_byval_c(int base, int n)
+C_pow_byval(int base, int n)
 {
 	int p;
 
@@ -150,7 +286,7 @@ fToC(float fahrenheit)
 }
 
 int
-pow_c(int base, int n)
+C_pow(int base, int n)
 {
 	int i, p;
 	p = 1;
@@ -161,23 +297,23 @@ pow_c(int base, int n)
 }
 
 void
-pow_test_thec(void)
+C_pow_test(void)
 {
 	int i;
 	for ( i = 0; i < 10; ++i )
-		printf("%d %d %d\n", i, pow_c(2, i), pow_c(-3, i));
+		printf("%d %d %d\n", i, C_pow(2, i), C_pow(-3, i));
 }
 
 void
-pow_example_mine(void)
+AO_pow_example(void)
 {
 	int base = 2;
 	int exp = 32;
-	printf("%d^%d = %d\n", base, exp, pow_mine(base, exp));
+	printf("%d^%d = %d\n", base, exp, AO_pow(base, exp));
 }
 
 int
-pow_mine(int base, int exponent)
+AO_pow(int base, int exponent)
 {
 	// This seems to very quickly over flow 
 	// Probably not a good solution for anything.
@@ -406,7 +542,7 @@ Length_Of_Words(int plotDirection)
 #undef LONGEST_WORD_LENGTH
 
 void
-Number_Of_Ocurrences_TheC(void)
+C_Number_Of_Ocurrences(void)
 {
 	int c, i, nWhite, nOther;
 	int nDigit[10];
@@ -431,7 +567,7 @@ Number_Of_Ocurrences_TheC(void)
 
 #define NUM_DIGITS 10
 void
-Number_Of_Ocurrences_Mine(void)
+AO_Number_Of_Ocurrences(void)
 {
 	int digitCount[10] = { 0 };
 	int whitespaceCount, othersCount, currentChar;
@@ -530,7 +666,7 @@ One_Word_Per_Line(void)
 #define IN 1
 #define OUT 0
 void
-Word_Count_TheC(void)
+C_Word_Count(void)
 {
 	// EX 1-11 DONE: Would test with empty, with numbers. With just lines. ETC
 	int c, nl, nw, nc, state;
@@ -560,7 +696,7 @@ Word_Count_TheC(void)
 #undef OUT
 
 void
-Word_Count_Mine(void)
+AO_Word_Count(void)
 {
 	int currentChar, wordCount;
 
@@ -681,7 +817,7 @@ Blank_Tab_Newline_Count(void)
 }
 
 void
-Line_Count_TheC(void)
+C_Line_Count(void)
 {
 	int c, nl;
 	nl = 0;
@@ -694,7 +830,7 @@ Line_Count_TheC(void)
 }
 
 void
-Line_Count_mine(void)
+AO_Line_Count(void)
 {
 	int c = getchar();
 	int res = c != EOF;
@@ -713,7 +849,7 @@ Line_Count_mine(void)
 }
 
 void
-Char_Count_Theirs(void)
+C_Char_Count(void)
 {
 	double count;
 
@@ -724,7 +860,7 @@ Char_Count_Theirs(void)
 }
 
 void
-Char_Count_Mine(void)
+AO_Char_Count(void)
 {
 	int c = getchar();
 	int res = c != EOF;
@@ -748,7 +884,7 @@ Print_EOF(void)
 }
 
 void
-FileCopy_Theirs(void)
+C_FileCopy(void)
 {
 	// EX 1-6 DONE: Verify result is either 0 or 1 (used debugger)
 
@@ -768,7 +904,7 @@ FileCopy_Theirs(void)
 #define UPPER 300.0f
 #define STEP 20.0f
 void
-FahrenheitToCelsius_Mine_SymConstants(void)
+AO_FahrenheitToCelsius_SymConstants(void)
 {
 	printf("F\tC\n");
 	for ( float F = UPPER; F >= LOWER; F -= STEP )
@@ -784,7 +920,7 @@ FahrenheitToCelsius_Mine_SymConstants(void)
 // 1.3 - The For statement
 // ----------------------------------------------------------------------------------------------------------
 void
-FahrenheitToCelsius_Mine_Reverse(void)
+AO_FahrenheitToCelsius_Reverse(void)
 {
 	// 0 to 300 F
 	// C = (5/9) (F - 32)
@@ -826,7 +962,7 @@ CelsiusToFahrenheit_Float(void)
 }
 
 void
-FahrenheitToCelsius_Float_Theirs(void)
+C_FahrenheitToCelsius_Float(void)
 {
 	float fahr, celsius;
 	int lower, upper, step;
@@ -846,7 +982,7 @@ FahrenheitToCelsius_Float_Theirs(void)
 }
 
 void
-FahrenheitToCelsius_Int_Theirs(void)
+C_FahrenheitToCelsius_Int(void)
 {
 	int fahr, celsius;
 	int lower, upper, step;
@@ -866,7 +1002,7 @@ FahrenheitToCelsius_Int_Theirs(void)
 }
 
 void
-FahrenheitToCelsius_Mine(void)
+AO_FahrenheitToCelsius(void)
 {
 	// 0 to 300 F
 	// C = (5/9) (F - 32)

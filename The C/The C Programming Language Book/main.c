@@ -4,7 +4,8 @@
 int
 main(void)
 {
-	print_longest_line();
+	int n = 10;
+	AO_DeTab(n);
 	Exit_Console();
 }
 
