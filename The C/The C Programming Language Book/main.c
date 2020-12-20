@@ -4,8 +4,7 @@
 int
 main(void)
 {
-	int n = 10;
-	AO_DeTab(n);
+	AO_DeTab_Test();
 	Exit_Console();
 }
 

@@ -9,11 +9,103 @@ void C_copy(char to[], char from[]);
 // 1.10 - External Variables and scope
 // ----------------------------------------------------------------------------------------------------------
 
-// Ex 1-20 TODO: Write a function that substitutes tabs for spaces
-void AO_DeTab(int n)
+// Ex 1-20 DONE: Write a function that substitutes tabs for spaces
+void
+AO_DeTab(char detabbed[], char original[], int tab_stop_length)
 {
-
+	int original_index = 0;
+	int detabbed_index = 0;
+	char currentChar;
+	while ( (currentChar = original[original_index++]) != '\0' )
+	{
+		if ( currentChar == '\t' )
+		{
+			int tabStopGap = tab_stop_length - (detabbed_index % tab_stop_length);
+			for(int j = 0; j < tabStopGap; ++j)
+				detabbed[detabbed_index++] = ' ';
+		}
+		else
+		{
+			detabbed[detabbed_index++] = currentChar;
+		}
+	}
+	detabbed[detabbed_index] = '\0';
 }
+
+void
+AO_DEBUG_Print_Tab_Stops(int tabLength, int tabStopCount)
+{
+	int numChars = tabStopCount * tabLength + 1;
+	int skip = 0;
+	// Draw char numbers aligned to tab stops
+	// BUG: This will not work properly with tab stop counts that result in total number of chars rendered
+	// Larger than 3 digits (it will be off by one column after each tab stop after 100)
+	for (int i = 0; i < numChars; ++i)
+	{
+
+		if ( (i % tabLength ) == 0 )
+		{
+			printf("%d", i);
+
+			if (i > 9) skip = 1;
+
+		}
+		else
+		{
+			if (!skip)
+			{
+				putchar(' ');
+			}
+			else
+			{
+				skip = 0;
+			}
+		}
+	}
+	putchar('\n');
+
+	for(int i = 0; i < numChars; ++i)
+	{
+		if ((i % tabLength) != 0)
+		{
+			putchar('-');
+		}
+		else
+		{
+			putchar('|');
+		}
+	}
+	putchar('\n');
+}
+
+void 
+AO_DeTab_Test(void)
+{
+#define TESTING 1
+	// Current line length
+	int len;
+
+	// Current input line
+	char line[MAXLINE];
+	char line_detab[MAXLINE];
+
+	int tab_stop_length = 4;
+
+#if TESTING
+	AO_DEBUG_Print_Tab_Stops(tab_stop_length, 10);
+#endif
+
+	while ( (len = C_getline(line, MAXLINE)) > 0 )
+	{
+		AO_DeTab(line_detab, line, tab_stop_length);
+
+#if TESTING
+		AO_DEBUG_Print_Tab_Stops(tab_stop_length, 10);
+#endif
+		printf("%s\n", line_detab);
+	}
+}
+#undef TESTING
 
 // 1.9 - Character Arrays
 // ----------------------------------------------------------------------------------------------------------
@@ -23,7 +115,7 @@ void
 AO_reverse(char reverse[], char original[], int str_Length)
 {
 	int i, j;
-	for (i = str_Length - 1, j = 0; i >= 0; --i, ++j)
+	for ( i = str_Length - 1, j = 0; i >= 0; --i, ++j )
 	{
 		reverse[j] = original[i];
 	}
@@ -64,7 +156,7 @@ AO_copy_trailing_WS_Removed(char to[], char from[])
 	if ( !charCount ) return;
 
 	// Scan string back to front until you hit a non whitespace character, that's the new endpoint
-	for (i = charCount - 1; i >= 0; --i)
+	for ( i = charCount - 1; i >= 0; --i )
 	{
 		if ( (from[i] != ' ') &&
 			 (from[i] != '\t') &&
@@ -78,7 +170,7 @@ AO_copy_trailing_WS_Removed(char to[], char from[])
 
 	i = 0;
 	// Copy the string front to back into a buffer
-	for (i = 0; i < string_new_endpoint; ++i)
+	for ( i = 0; i < string_new_endpoint; ++i )
 	{
 		to[i] = from[i];
 	}
@@ -181,8 +273,8 @@ C_getline(char s[], int lim)
 	// Or your character is not an endline
 	// put the line into the line string
 	for ( i = 0;
-		  (c = getchar()) != EOF && c != '\n';
-		  ++i )
+		(c = getchar()) != EOF && c != '\n';
+		++i )
 	{
 		if ( i < lim - 1 )
 		{
