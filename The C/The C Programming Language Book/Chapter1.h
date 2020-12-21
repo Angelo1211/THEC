@@ -6,7 +6,7 @@
 // AO_ stands for functions I (Angel Ortiz) wrote
 
 // 1.10
-void AO_DeTab(char detabbed[], char original[], int tab_stop_length);
+void AO_EnTab_Test(void);
 void AO_DeTab_Test(void);
 
 // 1.9
