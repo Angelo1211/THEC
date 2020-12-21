@@ -107,42 +107,61 @@ AO_EnTab(char entabbed[], char original[], int tab_stop_length)
 	// String indices
 	int original_index = 0;
 	int entabbed_index = 0;
+	int virtual_index = 0;
 
 	// If inside WS 
 	int spaceCount = 0;
 
 	// Traverse the whole string
 	char currentChar;
-	while ( (currentChar = original[original_index++]) != '\0' )
+	while ( (currentChar = original[original_index]) != '\0' )
 	{
 		if ( currentChar == ' ' )
 		{
-			if (spaceCount && !(original_index % tab_stop_length))
+			// If you've seen some whitespace before and you're on a tab stop
+			// Reset the whitespace and include a tab stop
+			if (spaceCount && !(virtual_index % tab_stop_length))
 			{
 				// Reset count && insert a tab
-				spaceCount = 0;
+				int tabStopGap = tab_stop_length - (virtual_index % tab_stop_length);
+				virtual_index += tabStopGap;
+
 				entabbed[entabbed_index++] = '\t';
+				spaceCount = 0;
 			}
-			spaceCount++;
+			else
+			{
+				// Keep incrementing the number of spaces you've seen without actually 
+				// Including that space
+				spaceCount++;
+			}
 		}
 		else if (currentChar == '\t')
 		{
-			spaceCount = 0;
+			int tabStopGap = tab_stop_length - (virtual_index % tab_stop_length);
+			virtual_index += tabStopGap;
+
+			// If you see a tab, respect it but also reset the space count
+			// Any of those spaces would've been tabs anyway
 			entabbed[entabbed_index++] = '\t';
+			spaceCount = 0;
 		}
 		else
 		{
 			if (spaceCount)
 			{
 				// Whatever remains must be less than a tab stop just flush with spaces
-				do 
+				while (spaceCount--)
 				{
 					entabbed[entabbed_index++] = ' ';
-				} while (--spaceCount);
+				}
+				spaceCount = 0;
 			}
 
 			entabbed[entabbed_index++] = currentChar;
 		}
+		original_index++;
+		virtual_index++;
 	}
 	entabbed[entabbed_index] = '\0';
 }
