@@ -4,7 +4,7 @@
 int
 main(void)
 {
-	AO_EnTab_Test();
+	AO_Fold_Test();
 	Exit_Console();
 }
 

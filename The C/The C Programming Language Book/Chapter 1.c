@@ -100,6 +100,145 @@ AO_DEBUG_Print_Visualized_WhiteSpace(char str[], int tab_stop_length)
 	}
 }
 
+int
+AO_Find_Word_Length(char str[], int index)
+{
+	int beginning = index;
+	char currentChar;
+	while ( (currentChar = str[index]) != '\0' )
+	{
+		// Traverse the whole string until you find a whitespace char
+		if ( (currentChar == ' ') || (currentChar == '\t') || (currentChar == '\n') )
+			return index - beginning;
+
+		++index;
+	}
+
+	return 0;
+}
+
+// Ex 1-22 TODO: Write a function that folds long input lines
+void
+AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_length)
+{
+	int original_array_index = 0;
+	int folded_array_index = 0;
+	int current_line_index = 0;
+
+	int word_length = 0;
+	int word_start_index = 0;
+
+	char currentChar;
+	while ( (currentChar = original[original_array_index++]) != '\0' )
+	{
+		switch ( currentChar )
+		{
+			case '\n':
+			{
+				folded[folded_array_index++] = currentChar;
+				current_line_index = 0;
+				word_length = 0;
+			}break;
+
+			case '\t':
+			{
+				// If your tab is going to take you over the limit
+				if ( (current_line_index + tab_stop_length) > max_string_width )
+				{
+					folded[folded_array_index++] = '\n';
+					current_line_index = 0;
+				}
+
+				folded[folded_array_index++] = currentChar;
+				current_line_index += tab_stop_length;
+				word_length = 0;
+			}break;
+
+			case ' ':
+			{
+				// If you're going over the line start a new one 
+				if ( current_line_index > max_string_width )
+				{
+					folded[folded_array_index++] = '\n';
+					current_line_index = 0;
+				}
+
+				folded[folded_array_index++] = currentChar;
+				current_line_index++;
+				word_length = 0;
+			}break;
+
+			default:
+			{
+				// Starting a new word
+				if ( !word_length )
+				{
+					// Find out it's length
+					word_length = AO_Find_Word_Length(original, original_array_index);
+					word_start_index = original_array_index;
+
+					// If there's not enough space in the line for the word insert a new line 
+					if ( current_line_index + word_length > max_string_width )
+					{
+						// But make sure the line fits within the next line
+						if ( word_length <= max_string_width )
+						{
+							folded[folded_array_index++] = '\n';
+							current_line_index = 0;
+						}
+					}
+				}
+
+				// If you're going over the line start a new one 
+				if ( current_line_index > max_string_width )
+				{
+					folded[folded_array_index++] = '\n';
+					current_line_index = 0;
+				}
+
+				folded[folded_array_index++] = currentChar;
+				current_line_index++;
+			}break;
+		}
+	}
+
+	folded[folded_array_index] = '\0';
+}
+
+void
+AO_Fold_Test(void)
+{
+	// Current line length
+	int len;
+
+	// Current input line
+	char line[MAXLINE];
+	char line_folded[MAXLINE];
+
+	int max_string_width = 80;
+
+#define TESTING 1
+#if TESTING
+	int tab_stop_length = 8;
+	int tab_stop_count = 10;
+	max_string_width = tab_stop_count * tab_stop_length;
+	AO_DEBUG_Print_Tab_Stops(tab_stop_length, tab_stop_count);
+#endif
+
+	while ( (len = C_getline(line, MAXLINE)) > 0 )
+	{
+		AO_Fold(line_folded, line, max_string_width, tab_stop_length);
+#if TESTING
+		putchar('\n');
+		AO_DEBUG_Print_Tab_Stops(tab_stop_length, tab_stop_count);
+		AO_DEBUG_Print_Visualized_WhiteSpace(line_folded, tab_stop_length);
+#endif
+		// Final
+		printf("%s\n", line_folded);
+	}
+}
+#undef TESTING
+
 // Ex 1-21 DONE: Write a function that substitutes spaces for tabs
 void
 AO_EnTab(char entabbed[], char original[], int tab_stop_length)
@@ -116,14 +255,14 @@ AO_EnTab(char entabbed[], char original[], int tab_stop_length)
 	char currentChar;
 	while ( (currentChar = original[original_index]) != '\0' )
 	{
+		int tabStopGap = tab_stop_length - (virtual_index % tab_stop_length);
 		if ( currentChar == ' ' )
 		{
 			// If you've seen some whitespace before and you're on a tab stop
 			// Reset the whitespace and include a tab stop
-			if (spaceCount && !(virtual_index % tab_stop_length))
+			if ( spaceCount && !(virtual_index % tab_stop_length) )
 			{
 				// Reset count && insert a tab
-				int tabStopGap = tab_stop_length - (virtual_index % tab_stop_length);
 				virtual_index += tabStopGap;
 
 				entabbed[entabbed_index++] = '\t';
@@ -136,9 +275,8 @@ AO_EnTab(char entabbed[], char original[], int tab_stop_length)
 				spaceCount++;
 			}
 		}
-		else if (currentChar == '\t')
+		else if ( currentChar == '\t' )
 		{
-			int tabStopGap = tab_stop_length - (virtual_index % tab_stop_length);
 			virtual_index += tabStopGap;
 
 			// If you see a tab, respect it but also reset the space count
@@ -148,10 +286,10 @@ AO_EnTab(char entabbed[], char original[], int tab_stop_length)
 		}
 		else
 		{
-			if (spaceCount)
+			if ( spaceCount )
 			{
 				// Whatever remains must be less than a tab stop just flush with spaces
-				while (spaceCount--)
+				while ( spaceCount-- )
 				{
 					entabbed[entabbed_index++] = ' ';
 				}

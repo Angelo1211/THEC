@@ -6,6 +6,7 @@
 // AO_ stands for functions I (Angel Ortiz) wrote
 
 // 1.10
+void AO_Fold_Test(void);
 void AO_EnTab_Test(void);
 void AO_DeTab_Test(void);
 
