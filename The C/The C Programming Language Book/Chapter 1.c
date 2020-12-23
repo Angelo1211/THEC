@@ -114,10 +114,11 @@ AO_Find_Word_Length(char str[], int index)
 		++index;
 	}
 
-	return 0;
+	// The word takes the whole array
+	return index - beginning;
 }
 
-// Ex 1-22 TODO: Write a function that folds long input lines
+// Ex 1-22 DONE: Write a function that folds long input lines
 void
 AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_length)
 {
@@ -126,7 +127,6 @@ AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_lengt
 	int current_line_index = 0;
 
 	int word_length = 0;
-	int word_start_index = 0;
 
 	char currentChar;
 	while ( (currentChar = original[original_array_index++]) != '\0' )
@@ -135,7 +135,6 @@ AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_lengt
 		{
 			case '\n':
 			{
-				folded[folded_array_index++] = currentChar;
 				current_line_index = 0;
 				word_length = 0;
 			}break;
@@ -149,7 +148,6 @@ AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_lengt
 					current_line_index = 0;
 				}
 
-				folded[folded_array_index++] = currentChar;
 				current_line_index += tab_stop_length;
 				word_length = 0;
 			}break;
@@ -157,13 +155,12 @@ AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_lengt
 			case ' ':
 			{
 				// If you're going over the line start a new one 
-				if ( current_line_index > max_string_width )
+				if ( (current_line_index + 1) > max_string_width )
 				{
 					folded[folded_array_index++] = '\n';
 					current_line_index = 0;
 				}
 
-				folded[folded_array_index++] = currentChar;
 				current_line_index++;
 				word_length = 0;
 			}break;
@@ -175,10 +172,9 @@ AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_lengt
 				{
 					// Find out it's length
 					word_length = AO_Find_Word_Length(original, original_array_index);
-					word_start_index = original_array_index;
 
 					// If there's not enough space in the line for the word insert a new line 
-					if ( current_line_index + word_length > max_string_width )
+					if ( (current_line_index + word_length) > max_string_width ) 
 					{
 						// But make sure the line fits within the next line
 						if ( word_length <= max_string_width )
@@ -190,16 +186,16 @@ AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_lengt
 				}
 
 				// If you're going over the line start a new one 
-				if ( current_line_index > max_string_width )
+				if ( (current_line_index + 1) > max_string_width )
 				{
 					folded[folded_array_index++] = '\n';
 					current_line_index = 0;
 				}
 
-				folded[folded_array_index++] = currentChar;
 				current_line_index++;
 			}break;
 		}
+		folded[folded_array_index++] = currentChar;
 	}
 
 	folded[folded_array_index] = '\0';
@@ -229,12 +225,15 @@ AO_Fold_Test(void)
 	{
 		AO_Fold(line_folded, line, max_string_width, tab_stop_length);
 #if TESTING
-		putchar('\n');
-		AO_DEBUG_Print_Tab_Stops(tab_stop_length, tab_stop_count);
 		AO_DEBUG_Print_Visualized_WhiteSpace(line_folded, tab_stop_length);
 #endif
 		// Final
 		printf("%s\n", line_folded);
+
+#if TESTING
+		putchar('\n');
+		AO_DEBUG_Print_Tab_Stops(tab_stop_length, tab_stop_count);
+#endif
 	}
 }
 #undef TESTING
