@@ -1,9 +1,28 @@
 #include "Chapter1.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+
+/*
+	* *
+	/ / 
+
+	This is here for testing the program for removing multiline comments
+
+	// It seems like it has worked fine so far, but could it be bamboozled by something like this?
+
+	I hope not! 
+
+	End of testing!
+
+	//
+*/
+
 
 // Common functions
 // ----------------------------------------------------------------------------------------------------------
-#define MAXLINE 1000
+#define MAXLINE 1000 // Just testing some stuff
 #define TRUE 1
 #define FALSE 0
 int C_getline(char line[], int maxline);
@@ -118,6 +137,128 @@ AO_Find_Word_Length(char str[], int index)
 	return index - beginning;
 }
 
+char *
+AO_Read_Entire_File(char *file_name, size_t *size)
+{
+	char *result = 0;
+
+	FILE *file = fopen(file_name, "r");
+	if ( file )
+	{
+		// Seek to the end of the file
+		fseek(file, 0, SEEK_END);
+
+		// Tell me where that is and store it
+		size_t file_size = ftell(file);
+
+		// Seek back to the front of the file
+		fseek(file, 0, SEEK_SET);
+
+		// Extra space for the null terminator
+		result = malloc(file_size + 1);
+
+		if ( result )
+		{
+			int read = fread(result, sizeof(char), file_size, file);
+			if ( read )
+			{
+				*size = read;
+				result[read] = 0;
+			}
+		}
+
+		fclose(file);
+	}
+
+	return result;
+}
+
+// Ex 1-23 DONE: Write a function that removes all comments from a c program
+void
+AO_Remove_Comments()
+{
+	size_t size;
+	char *File_contents = AO_Read_Entire_File(__FILE__, &size);
+	char *File_without_comments = malloc(size + 1);
+	assert(File_without_comments);
+
+	int original_file_index = 0;
+	int commentless_file_index = 0;
+
+	int single_line_comment = 0;
+	int multi_line_comment = 0;
+
+	char currentChar;
+	while ( (currentChar = File_contents[original_file_index++]) != '\0' )
+	{
+		switch ( currentChar )
+		{
+			case '/':
+			{
+				if ( !(single_line_comment || multi_line_comment) )
+				{
+					// Look ahead to next char
+					char nextChar = File_contents[original_file_index];
+
+					if ( nextChar == '/' )
+					{
+						single_line_comment = 1;
+						original_file_index++;
+					}
+					else if ( nextChar == '*' )
+					{
+						multi_line_comment = 1;
+						original_file_index++;
+					}
+					else
+					{
+						File_without_comments[commentless_file_index++] = currentChar;
+					}
+				}
+
+			}break;
+
+			case '*':
+			{
+				// Look ahead to next char
+				char nextChar = File_contents[original_file_index];
+
+				if (nextChar == '/')
+				{
+					multi_line_comment = 0;
+					original_file_index++;
+				}
+				else
+				{
+					if ( !(single_line_comment || multi_line_comment) )
+						File_without_comments[commentless_file_index++] = currentChar;
+				}
+
+			}break;
+
+			case '\n':
+			{
+				single_line_comment = 0;
+				File_without_comments[commentless_file_index++] = currentChar;
+			}break;
+
+			default:
+			{
+				if ( !(single_line_comment || multi_line_comment) )
+					File_without_comments[commentless_file_index++] = currentChar;
+
+			}
+		}
+
+	}
+	File_without_comments[commentless_file_index] = 0;
+
+	printf("%s\n", File_without_comments);
+
+	free(File_contents);
+	free(File_without_comments);
+}
+
 // Ex 1-22 DONE: Write a function that folds long input lines
 void
 AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_length)
@@ -142,7 +283,7 @@ AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_lengt
 			case '\t':
 			{
 				// If your tab is going to take you over the limit
-				if ( (current_line_index + tab_stop_length) > max_string_width )
+				if ( (current_line_index + tab_stop_length) > max_string_width ) // 
 				{
 					folded[folded_array_index++] = '\n';
 					current_line_index = 0;
@@ -174,7 +315,7 @@ AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_lengt
 					word_length = AO_Find_Word_Length(original, original_array_index);
 
 					// If there's not enough space in the line for the word insert a new line 
-					if ( (current_line_index + word_length) > max_string_width ) 
+					if ( (current_line_index + word_length) > max_string_width )
 					{
 						// But make sure the line fits within the next line
 						if ( word_length <= max_string_width )
@@ -1401,4 +1542,3 @@ HelloWorld(void)
 	// Ex 1-2 DONE: Test what happens if printf argument string uses some other chars
 	printf("Hello World!\n");
 }
-

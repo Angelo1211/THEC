@@ -4,7 +4,7 @@
 int
 main(void)
 {
-	AO_Fold_Test();
+	AO_Remove_Comments();
 	Exit_Console();
 }
 
