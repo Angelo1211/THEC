@@ -25,6 +25,7 @@
 #define MAXLINE 1000 // Just testing some stuff
 #define TRUE 1
 #define FALSE 0
+#define test "test! \\ thing "
 int C_getline(char line[], int maxline);
 void C_copy(char to[], char from[]);
 
@@ -187,6 +188,7 @@ AO_Remove_Comments()
 
 	int single_line_comment = 0;
 	int multi_line_comment = 0;
+	int qouted_string = 0;
 
 	char currentChar;
 	while ( (currentChar = File_contents[original_file_index++]) != '\0' )
@@ -195,7 +197,7 @@ AO_Remove_Comments()
 		{
 			case '/':
 			{
-				if ( !(single_line_comment || multi_line_comment) )
+				if ( !(single_line_comment || multi_line_comment || qouted_string) )
 				{
 					// Look ahead to next char
 					char nextChar = File_contents[original_file_index];
@@ -234,6 +236,18 @@ AO_Remove_Comments()
 						File_without_comments[commentless_file_index++] = currentChar;
 				}
 
+			}break;
+
+			case '"':
+			{
+				if (qouted_string)
+				{
+					qouted_string = 0;
+				}
+				else
+				{
+					qouted_string = 1;
+				}
 			}break;
 
 			case '\n':
