@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Chapter 1.c" />
+    <ClCompile Include="common.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
