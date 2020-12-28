@@ -7,7 +7,7 @@
 
 // 1.10
 void AO_Check_For_Errors(void);
-void AO_Remove_Comments(void);
+char *AO_Remove_Comments(char *fileName);
 void AO_Fold_Test(void);
 void AO_EnTab_Test(void);
 void AO_DeTab_Test(void);

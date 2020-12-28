@@ -21,26 +21,135 @@
 // 1.10 - External Variables and scope
 // ----------------------------------------------------------------------------------------------------------
 
-// Ex 1-24 TODO: Write a function that checks a c program for rudimentary errors
+void
+AO_DEBUG_Print_Line_Numbers(char *str)
+{
+	int strIndex = 0;
+
+	int currentChar = 1;
+	int currentLine = 1;
+	while ( (currentChar = str[strIndex++]) != '\0' )
+	{
+		switch(currentChar)
+		{
+			case '\n':
+			{
+				currentLine++;
+				printf("\n%2.d|", currentLine);
+			}break;
+
+			default:
+				putchar(currentChar);
+		}
+	}
+	putchar('\n');
+
+}
+
+struct State
+{
+	// Qoutes
+	int qouted_string;
+	int last_qoute_line;
+
+	// Parenthesis
+	int unbalanced_parenthesis;
+	int last_parenthesis_line;
+
+	// Brackets
+	int unbalanced_brackets;
+	int last_bracket_line;
+};
+
+// Ex 1-24 DONEish: Write a function that checks a c program for rudimentary errors
+// OK, so this is not at all the full thing but I get the point. Doing any more is wasting my time.
+
+#define ERRORFILE "W:\\THEC\\HasErrors.c"
 void
 AO_Check_For_Errors()
 {
-	size_t size;
-	char *File_contents = AO_Read_Entire_File(__FILE__, &size);
-	int original_file_index = 0;
+	char *File_contents = AO_Remove_Comments(ERRORFILE);
+	if (File_contents)
+	{
+		int original_file_index = 0;
 
-	int single_line_comment = 0;
-	int multi_line_comment = 0;
-	int qouted_string = 0;
+		AO_DEBUG_Print_Line_Numbers(File_contents);
+
+		struct State state = { 0 };
+
+		char currentChar;
+		int currentLine = 1;
+		while ( (currentChar = File_contents[original_file_index++]) != '\0' )
+		{
+			switch ( currentChar )
+			{
+				case '\n':
+				{
+					currentLine++;
+				}break;
+			
+				case '"':
+				{
+					state.qouted_string = !state.qouted_string;
+					state.last_qoute_line = currentLine;
+				}break;
+
+				case '(':
+				{
+					// Only count these if we're not inside a quoted string
+					if (!state.qouted_string)
+						state.unbalanced_parenthesis++;
+				}break;
+
+				case ')':
+				{
+					// Only count these if we're not inside a quoted string
+					if (!state.qouted_string)
+						state.unbalanced_parenthesis--;
+				}break;
+
+				case '{':
+				{
+					if (!state.qouted_string)
+						state.unbalanced_brackets++;
+				}break;
+
+				case '}':
+				{
+					if (!state.qouted_string)
+						state.unbalanced_brackets--;
+				}break;
+
+			}
+		}
+
+		// If zero it's balanced. So if not zero it's not balanced!
+
+		if (state.unbalanced_parenthesis)
+		{
+			printf("ERROR!: Unbalanced parenthesis %d\n", state.unbalanced_parenthesis);
+		}
+
+		if (state.unbalanced_brackets)
+		{
+			printf("ERROR!: Unbalanced brackets %d\n", state.unbalanced_brackets);
+		}
+
+		if (state.qouted_string)
+		{
+			printf("ERROR!: Unbalanced quotes %d\n", state.qouted_string);
+		}
+
+	}
 
 }
 
 // Ex 1-23 DONE: Write a function that removes all comments from a c program
-void
-AO_Remove_Comments()
+char *
+AO_Remove_Comments(char * fileName)
 {
 	size_t size;
-	char *File_contents = AO_Read_Entire_File(__FILE__, &size);
+	char *File_contents = AO_Read_Entire_File(fileName, &size);
 	char *File_without_comments = malloc(size + 1);
 	assert(File_without_comments);
 
@@ -124,10 +233,9 @@ AO_Remove_Comments()
 	}
 	File_without_comments[commentless_file_index] = 0;
 
-	printf("%s\n", File_without_comments);
-
 	free(File_contents);
-	free(File_without_comments);
+
+	return (File_without_comments);
 }
 
 // Ex 1-22 DONE: Write a function that folds long input lines
