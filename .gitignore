@@ -7,3 +7,5 @@ The C/The C Programming Language Book/x64/Release
 *.ipdb
 *.exe
 *.ilk
+.DS_Store
+build/THEC
