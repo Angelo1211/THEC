@@ -321,6 +321,10 @@ AO_Fold(char folded[], char original[], int max_string_width, int tab_stop_lengt
 	folded[folded_array_index] = '\0';
 }
 
+// NOTE(AO) I was supposed to do something intelligent here if the linewas very lon and there were no 
+//			tabs or spaces available. I did not do anything particularly smart. If time was free and 
+//			I were to do this again I'd probably look backwards from the fold point to the closest char
+//			and use that as my fold point instad, giving it a nice paragraph look.
 void
 AO_Fold_Test(void)
 {
@@ -548,6 +552,9 @@ AO_copy_trailing_WS_Removed(char to[], char from[])
 	int i;
 
 	// Get total string length
+	// NOTE(AO) I did not realize at the time that this is unecessary
+	//			we got the length returned to us by C_getline, so we 
+	//			could have passed that in here as an argument instead
 	i = 0;
 	while ( from[i] != '\0' ) ++i;
 
@@ -1060,6 +1067,9 @@ C_Number_Of_Ocurrences(void)
 }
 
 #define NUM_DIGITS 10
+// NOTE(AO) I first wanted to go over this and change it to someting more optimal
+//			but that's not the point of these functions, they show what I came up
+//			with at the time. No matter how shitty that is. It's not that bad tho.
 void
 AO_Number_Of_Ocurrences(void)
 {
@@ -1070,9 +1080,9 @@ AO_Number_Of_Ocurrences(void)
 
 	while ( (currentChar = getchar()) != EOF )
 	{
-		int isSpace = currentChar == ' ';
-		int isTab = currentChar == '\t';
-		int isNewLine = currentChar == '\n';
+		bool isSpace = currentChar == ' ';
+		bool isTab = currentChar == '\t';
+		bool isNewLine = currentChar == '\n';
 		if ( isSpace || isTab || isNewLine )
 		{
 			++whitespaceCount;
@@ -1143,9 +1153,9 @@ One_Word_Per_Line(void)
 
 	while ( (currentChar = getchar()) != EOF )
 	{
-		int isSpace = currentChar == ' ';
-		int isTab = currentChar == '\t';
-		int isNewLine = currentChar == '\n';
+		bool isSpace = currentChar == ' ';
+		bool isTab = currentChar == '\t';
+		bool isNewLine = currentChar == '\n';
 		if ( isSpace || isTab || isNewLine )
 		{
 			putchar('\n');
@@ -1196,23 +1206,24 @@ AO_Word_Count(void)
 
 	wordCount = 0;
 
-	int wasWord = 0;
+	bool wasWord = 0;
 
 	while ( (currentChar = getchar()) != EOF )
 	{
-		int isSpace = currentChar == ' ';
-		int isTab = currentChar == '\t';
-		int isNewLine = currentChar == '\n';
-		if ( isSpace || isTab || (isNewLine) )
+		bool isSpace = currentChar == ' ';
+		bool isTab = currentChar == '\t';
+		bool isNewLine = currentChar == '\n';
+
+		if ( isSpace || isTab || isNewLine )
 		{
 			if ( wasWord )
 				wordCount++;
 
-			wasWord = 0;
+			wasWord = false;
 		}
 		else
 		{
-			wasWord = 1;
+			wasWord = true;
 		}
 	}
 	printf("Word count: %d\n", wordCount);
@@ -1348,7 +1359,7 @@ C_Char_Count(void)
 	double count;
 
 	for ( count = 0; getchar() != EOF; ++count )
-		; // Null statement (for loop needs something to happen
+		; // Null statement (for loop needs something to happen)
 
 	printf("%.2f\n", count);
 }
@@ -1431,9 +1442,10 @@ AO_FahrenheitToCelsius_Reverse(void)
 }
 
 
-// 1.2 ------------------------------------------------------------------------------------------------------
+// 1.2 Variables and Arithmetic Expressions
+//------------------------------------------------------------------------------------------------------
 void
-CelsiusToFahrenheit_Float(void)
+AO_CelsiusToFahrenheit_Float(void)
 {
 	// EX 1-4 DONE: Print Celsius to Fahrenheit table
 	float fahr, celsius;

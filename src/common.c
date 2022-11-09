@@ -142,7 +142,7 @@ AO_DEBUG_Print_Visualized_WhiteSpace(char str[], int tab_stop_length)
 }
 
 void
-Exit_Console(void)
+Console_Delay_Exit(void)
 {
 	printf("\nPress any key to exit!...\n");
 	getchar();

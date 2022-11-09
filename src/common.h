@@ -2,10 +2,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <assert.h>
-
-#define TRUE 1
-#define FALSE 0
 
 // Debug strings
 void AO_DEBUG_Print_Tab_Stops(int tabLength, int tabStopCount);
@@ -20,4 +18,4 @@ void C_copy(char to[], char from[]);
 char *AO_Read_Entire_File(char *file_name, size_t *size);
 
 // Console
-void Exit_Console(void);
+void Console_Delay_Exit(void);

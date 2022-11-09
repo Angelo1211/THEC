@@ -4,6 +4,7 @@
 int
 main(void)
 {
-	AO_Find_Type_Numerical_Limits();
-	Exit_Console();
+	//AO_Find_Type_Numerical_Limits();
+	AO_Fold_Test();
+	Console_Delay_Exit();
 }

@@ -19,14 +19,17 @@ void AO_print_longer_than_80(void);
 void AO_print_input_length(void);
 void C_print_longest_line(void);
 void AO_print_longest_line(void);
+
 // 1.8
 int C_pow_byval(int base, int n);
+
 // 1.7 
 float fToC(float fahrenheit);
 int C_pow(int base, int n);
 void C_pow_test(void);
 void AO_pow_example(void);
 int AO_pow(int base, int exponent);
+
 // 1.6 
 #define VERTICAL_HISTOGRAM 1
 #define HORIZONTAL_HISTOGRAM 0
@@ -34,6 +37,7 @@ void Character_Frequency(int plotDirection);
 void Length_Of_Words(int plotDirection);
 void C_Number_Of_Ocurrences(void);
 void AO_Number_Of_Ocurrences(void);
+
 // 1.5
 void One_Word_Per_Line(void);
 void C_Word_Count(void);
@@ -47,14 +51,18 @@ void C_Char_Count(void);
 void AO_Char_Count(void);
 void Print_EOF(void);
 void C_FileCopy(void);
+
 // 1.4
 void AO_FahrenheitToCelsius_SymConstants(void);
+
 // 1.3
 void AO_FahrenheitToCelsius_Reverse(void);
+
 // 1.2
-void CelsiusToFahrenheit_Float(void);
+void AO_CelsiusToFahrenheit_Float(void);
 void C_FahrenheitToCelsius_Float(void);
 void C_FahrenheitToCelsius_Int(void);
 void AO_FahrenheitToCelsius(void);
+
 // 1.1
 void HelloWorld(void);
