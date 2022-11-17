@@ -5,5 +5,5 @@ int
 main(void)
 {
 	AO_Find_Type_Numerical_Limits();
-	Console_Delay_Exit();
+	//Console_Delay_Exit();
 }
