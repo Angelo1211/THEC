@@ -6,11 +6,8 @@
 int
 main(void)
 {
-	int value = -1;
-	char number_string[] = "";
-	bool success = AO_atoi(number_string, &value);
-
-	printf("We parsed string %s %s and obtained the value: %d\n", number_string, success ? "succesfully" : "unsuccesfully", value);
+	char c = 'A';
+	printf("We started with %c, now have %c\n", c, AO_lower(c));
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();

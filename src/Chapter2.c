@@ -6,7 +6,7 @@
 // NOTE(AO) This stuff is only really valid in ASCII
 int AO_lower(int c)
 {
-	if (c < 'A' && c > 'Z')
+	if (c < 'A' || c > 'Z')
 		return c;
 
 	// Get the offset from the letter uppercase A, move that same offset forwards staring from lowercase a
