@@ -1,17 +1,112 @@
 #include "Chapter2.h"
-#include <limits.h>
-#include <float.h>
+
+// 2.7 - Type Conversions
+// ----------------------------------------------------------------------------------------------------------
+
+// NOTE(AO) This stuff is only really valid in ASCII
+int AO_lower(int c)
+{
+	if (c < 'A' && c > 'Z')
+		return c;
+
+	// Get the offset from the letter uppercase A, move that same offset forwards staring from lowercase a
+	return (c - 'A') + 'a';
+}
+
+int C_atoi(char s[])
+{
+	int i,n;
+	
+	n = 0;
+	for (i = 0; s[i] >= '0' && s[i] <= '9'; ++i)
+		n = 10 * n + (s[i] - '0'); // this is how you get the numerical value of a number char like 0
+
+	return n;
+}
+
+bool AO_atoi(char value_as_string[], int *value_as_int)
+{
+	int result = 0;
+	int i = 0;
+	bool is_negative_number = false;
+
+	// NOTE(AO) We assume whitespace has been taken care of elsewhere. Also, we only attempt to parse ints.
+
+	if (value_as_string[i] == '-')
+	{
+		is_negative_number = true;
+		i += 1;
+	}
+
+	// Feels kind of unecessary, but it seems more correct to me that this function would return false on empty strings
+	if (value_as_string[i] == '\0')
+		return false;
+
+	while (value_as_string[i] != '\0')
+	{
+		char c = value_as_string[i];
+		if ( c < '0' || c > '9')
+			return false;
+
+		result *= 10; // Shift the previous value up by ten
+
+		result += c - '0';
+		i += 1;
+	}
+
+	*value_as_int = is_negative_number ? -result : result;
+	return true;
+}
 
 // 2.6 - Relational and Logical Operators
 // ----------------------------------------------------------------------------------------------------------
+// for (i=O; i<lim-1 && (c=getchar()) != '\n' && c != EOF; ++i) s[i] =c;
+// Ex 2-2 DONE: Write a loop equivalent to the loop above without using && or ||
 void AO_New_For(void)
 {
 	int lim = 10;
 	int i = 0;
-	while (i < lim - 1)
-	{
+	char c = 0;
 
+	char s[10] = {};
+
+	while (true)
+	{
+		if (i >= lim -1) 
+			break;
+
+		c = getchar();
+
+		if (c == '\n')
+			break;
+		
+		if (c == EOF)
+			break;
+		
+		s[i] = c;
+
+		++i;
 	}
+
+	printf("You wrote: %s", s);
+}
+
+// 2.3 - Constants
+// ----------------------------------------------------------------------------------------------------------
+int C_strlen(char s[])
+{
+	int size = 0;
+
+	// NOTE(AO) The first time you wrote this you compared the char to "0" not "\0". This means this code
+	//			wouldn't stop running until it encountered the integer representation of "0" (which is 48)
+	//			somewhere in the memory of our program. This actually did not take too long, like 900 chars
+	//			or so, but it's funny that it happened as it's a classic beginner mistake to make on my part.
+	while (s[size] != '\0')
+	{
+		size += 1;
+	}
+
+	return size;
 }
 
 // 2.2 - Data Types and Sizes

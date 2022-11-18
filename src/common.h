@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <inttypes.h>
 #include <assert.h>
+#include <limits.h>
+#include <float.h>
 
 typedef uint8_t u8;
 #define U8_MIN 0
