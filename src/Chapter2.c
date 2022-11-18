@@ -4,13 +4,6 @@
 
 // 2.6 - Relational and Logical Operators
 // ----------------------------------------------------------------------------------------------------------
-/**
- * for (i = 0;
-	   (i < lim - 1) && 
-		((c = getchar()) != '\n') && 
-		(c != EOF);
-	   ++i)
- */
 void AO_New_For(void)
 {
 	int lim = 10;
@@ -77,6 +70,7 @@ printf(" Min-Max Unsigned %d, %d \n", min, max);		\
 }														\
 while(false)
 
+// Ex 2-1 DONE: Write a program to determine the ranges of char, short, int, long, float and double
 void 
 AO_Find_Type_Numerical_Limits(void)
 {
@@ -160,6 +154,7 @@ AO_Find_Type_Numerical_Limits(void)
 			printf("\nFloat(12 digits, ):\n\t%.12f, %.12f ", min, max);
 
 			// Double
+			// It's going to be the same at the above
 
 		}
 
