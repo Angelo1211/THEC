@@ -6,6 +6,7 @@
 // AO_ stands for functions I (Angel Ortiz) wrote
 
 // 2.7
+bool AO_htoi(char value_as_hex_string[], u32 *value_as_int);
 int AO_lower(int c);
 int C_atoi(char s[]);
 bool AO_atoi(char value_as_string[], int *value_as_int);

@@ -1,6 +1,6 @@
-
 // This file is a test bed for compilation errors to test EX 1-24 with
 //! It is not intended to compile succesfully!
+#if 0
 
 int
 main()
@@ -23,3 +23,4 @@ main()
     }
 
 }
+#endif

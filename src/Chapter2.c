@@ -3,7 +3,55 @@
 // 2.7 - Type Conversions
 // ----------------------------------------------------------------------------------------------------------
 
+// Ex 2-3 TODO Write the function htoi(s) which converts a string of hexadecimal digits into it's equivalent int value
+bool AO_htoi(char value_as_hex_string[], u32 *value_as_int)
+{
+	u32 result = 0;
+	int i = 0;
+
+	if (value_as_hex_string[i] == '\0')
+		return false;
+	
+	// Moving past the optional 0x or 0X
+	if (value_as_hex_string[i] == '0' )
+	{
+		if (value_as_hex_string[i + 1] == 'x' || value_as_hex_string[i + 1] == 'X')
+		{
+			i += 2;
+		}
+	}
+
+	while (value_as_hex_string[i] != '\0')
+	{
+		char c = value_as_hex_string[i];
+
+		result *= 16;
+
+		if (c >= '0' && c <= '9')
+		{
+			result += c - '0';
+		}
+		else if (c >= 'A' && c <= 'F')
+		{
+			result += 10 + c - 'A';
+		}
+		else if (c >= 'a' && c <= 'f')
+		{
+			result += 10 + c - 'a';
+		}
+		else
+			return false;
+		
+		i += 1;
+	}
+
+	*value_as_int = result;
+	return true;
+}
+
+
 // NOTE(AO) This stuff is only really valid in ASCII
+//			Also I did not bother doing a C_ version because it's pretty much the same implementation
 int AO_lower(int c)
 {
 	if (c < 'A' || c > 'Z')
@@ -38,7 +86,7 @@ bool AO_atoi(char value_as_string[], int *value_as_int)
 		i += 1;
 	}
 
-	// Feels kind of unecessary, but it seems more correct to me that this function would return false on empty strings
+	// feels kind of unecessary, but it seems more correct to me that this function would return false on empty strings
 	if (value_as_string[i] == '\0')
 		return false;
 
@@ -61,7 +109,7 @@ bool AO_atoi(char value_as_string[], int *value_as_int)
 // 2.6 - Relational and Logical Operators
 // ----------------------------------------------------------------------------------------------------------
 // for (i=O; i<lim-1 && (c=getchar()) != '\n' && c != EOF; ++i) s[i] =c;
-// Ex 2-2 DONE: Write a loop equivalent to the loop above without using && or ||
+// EX 2-2 DONE: Write a loop equivalent to the loop above without using && or ||
 void AO_New_For(void)
 {
 	int lim = 10;
