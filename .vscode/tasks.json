@@ -2,7 +2,7 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: clang build active file",
+            "label": "Build Project",
             "command": "/usr/bin/clang",
             "args": [
                 "-fcolor-diagnostics",
@@ -10,7 +10,7 @@
                 "-g",
                 "${workspaceFolder}/src/*.c",
                 "-o",
-                "${workspaceFolder}/build/${fileBasenameNoExtension}"
+                "${workspaceFolder}/build/${workspaceFolderBasename}"
             ],
             "options": {
                 "cwd": "${fileDirname}"
