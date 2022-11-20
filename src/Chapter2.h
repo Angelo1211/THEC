@@ -6,6 +6,7 @@
 // AO_ stands for functions I (Angel Ortiz) wrote
 
 // 2.8
+int AO_any(char s1[], char s2[]);
 void AO_squeeze(char s1[], char s2[]);
 
 // 2.7

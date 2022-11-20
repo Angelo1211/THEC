@@ -1,24 +1,17 @@
 #include "Chapter1.h"
 #include "Chapter2.h"
 
-#define PAUSE_ON_EXIT 1
+#define PAUSE_ON_EXIT 0
 
 int
 main(void)
 {
-	char s1[] = "123aaa123bbb456test777";
-	char s2[] = "123456";
+	char s1[] = "The Pied Piper Piped His Pipes.";
+	char s2[] = "H";
 
-	// NOTE(AO) This worked, but gave a value +1 larger than I thought it would. That's because s1 is a character array, so we stuff an '\0' at the end to signal 
-	//			That the string terminated.
-	printf("This string is %d characters long: %s\n", (s32)NELEM(s1), s1);
+	int result = AO_any(s1, s2);
 
-	printf("Prev string:\n%s\n\n", s1);
-
-
-	AO_squeeze(s1, s2);
-
-	printf("Squeezed String:\n%s\n", s1);
+	printf("We tried to find any ocurrance of %s in the string:\n\t>>%s\nWe found an ocurrance at index: %d\n", s2, s1, result);
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();

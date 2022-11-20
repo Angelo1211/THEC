@@ -3,9 +3,27 @@
 // 2.8 - Increment and Decrement Operators
 // ----------------------------------------------------------------------------------------------------------
 
+// Ex 2-5 TODO Write a function any(s1, s2) which returns the first location in the string s1 of any character that appears in s2. -1 if no characters appear
+int AO_any(char s1[], char s2[])
+{
+	// Go over the entire string array we want to inspect for chars.
+	for (int i = 0; s1[i] != '\0'; ++i)
+	{
+		// Go over all of the characters we should get rid of
+		for (int j = 0; s2[j] != '\0'; ++j)
+		{
+			if (s1[i] == s2[j])
+			{
+				return i;
+			}
+		}
+	}
+
+	return -1;
+}
+
 // Ex 2-4 DONE Write a version of squeeze (s1, s2) that deletes each character in s1 that matches any character in s2
-void 
-AO_squeeze(char s1[], char s2[])
+void AO_squeeze(char s1[], char s2[])
 {
 	int j = 0;
 	// Go over the entire string array we want to squeeze.
