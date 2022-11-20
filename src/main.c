@@ -6,13 +6,19 @@
 int
 main(void)
 {
-	// 32 bits - 4 bytes - 1 byte = 0-255 = 0xFF
-	// So this is the max we could fit 0xFF_FF_FF_FF | 0xDE_AD_BE_EF 
-	// Hence our dumb test value should fit in a u32 no problem
-	char number[] = "0xDEADBEEF";
-	u32 result = 0;
-	bool success = AO_htoi(number, &result);
-	printf("Our number in hex was %s, after parsing we got %u, we %s\n", number, result, success ? "succeeded! :)" : "failed! :'(");
+	char s1[] = "123aaa123bbb456test777";
+	char s2[] = "123456";
+
+	// NOTE(AO) This worked, but gave a value +1 larger than I thought it would. That's because s1 is a character array, so we stuff an '\0' at the end to signal 
+	//			That the string terminated.
+	printf("This string is %d characters long: %s\n", (s32)NELEM(s1), s1);
+
+	printf("Prev string:\n%s\n\n", s1);
+
+
+	AO_squeeze(s1, s2);
+
+	printf("Squeezed String:\n%s\n", s1);
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();

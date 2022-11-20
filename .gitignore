@@ -10,3 +10,4 @@ The C/The C Programming Language Book/x64/Release
 .DS_Store
 build/THEC
 build
+.vscode/settings.json

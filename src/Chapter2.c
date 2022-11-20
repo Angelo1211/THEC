@@ -1,9 +1,39 @@
 #include "Chapter2.h"
 
-// 2.7 - Type Conversions
+// 2.8 - Increment and Decrement Operators
 // ----------------------------------------------------------------------------------------------------------
 
-// Ex 2-3 TODO Write the function htoi(s) which converts a string of hexadecimal digits into it's equivalent int value
+// Ex 2-4 DONE Write a version of squeeze (s1, s2) that deletes each character in s1 that matches any character in s2
+void 
+AO_squeeze(char s1[], char s2[])
+{
+	int j = 0;
+	// Go over the entire string array we want to squeeze.
+	for (int i = 0; s1[i] != '\0'; ++i)
+	{
+		// Go over all of the characters we should get rid of
+		bool matches_any = false;
+		for (int k = 0; s2[k] != '\0'; ++k)
+		{
+			if (s1[i] == s2[k])
+			{
+				// Skip past this
+				matches_any = true;
+				break;
+			}
+		}
+
+		if (!matches_any)
+		{
+			s1[j++] = s1[i];
+		}
+	}
+	s1[j] = '\0';
+}
+
+// 2.7 - Type Conversions
+// ----------------------------------------------------------------------------------------------------------
+// Ex 2-3 DONE Write the function htoi(s) which converts a string of hexadecimal digits into it's equivalent int value
 bool AO_htoi(char value_as_hex_string[], u32 *value_as_int)
 {
 	u32 result = 0;

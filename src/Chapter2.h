@@ -5,6 +5,9 @@
 // C_ stands for functions from the C Book
 // AO_ stands for functions I (Angel Ortiz) wrote
 
+// 2.8
+void AO_squeeze(char s1[], char s2[]);
+
 // 2.7
 bool AO_htoi(char value_as_hex_string[], u32 *value_as_int);
 int AO_lower(int c);

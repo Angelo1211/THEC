@@ -59,3 +59,6 @@ char *AO_Read_Entire_File(char *file_name, size_t *size);
 
 // Console
 void Console_Delay_Exit(void);
+
+// Arrays
+#define NELEM(array) (sizeof(array)/sizeof(array[0]))
