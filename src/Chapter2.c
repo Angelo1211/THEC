@@ -1,11 +1,21 @@
 #include "Chapter2.h"
 
+// 2.9 - Bitwise Operators
+// ----------------------------------------------------------------------------------------------------------
+// Ex 2-6 TODO Write a function setbits(x, p, n, y) that returns x with the n bits that begin at position p set to the rightmost n bits of y. Leaves other bits unchanged
+
+u32 C_getbits(u32 bits, int p, int n)
+{
+	return (bits >> (p - n + 1)) & ~(~0 << n);
+}
+
+
 // 2.8 - Increment and Decrement Operators
 // ----------------------------------------------------------------------------------------------------------
-
-// Ex 2-5 TODO Write a function any(s1, s2) which returns the first location in the string s1 of any character that appears in s2. -1 if no characters appear
+// Ex 2-5 DONE Write a function any(s1, s2) which returns the first location in the string s1 of any character that appears in s2. -1 if no characters appear
 int AO_any(char s1[], char s2[])
 {
+
 	// Go over the entire string array we want to inspect for chars.
 	for (int i = 0; s1[i] != '\0'; ++i)
 	{

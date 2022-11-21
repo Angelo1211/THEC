@@ -5,6 +5,9 @@
 // C_ stands for functions from the C Book
 // AO_ stands for functions I (Angel Ortiz) wrote
 
+// 2.9
+u32 AO_getbits(u32 bits, int p, int n);
+
 // 2.8
 int AO_any(char s1[], char s2[]);
 void AO_squeeze(char s1[], char s2[]);
