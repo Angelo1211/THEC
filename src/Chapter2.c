@@ -2,7 +2,26 @@
 
 // 2.9 - Bitwise Operators
 // ----------------------------------------------------------------------------------------------------------
-// Ex 2-6 TODO Write a function setbits(x, p, n, y) that returns x with the n bits that begin at position p set to the rightmost n bits of y. Leaves other bits unchanged
+
+// Ex 2-6 DONE Write a function setbits(x, p, n, y) that returns x with the n bits that begin at position p set to the rightmost n bits of y. Leaves other bits unchanged
+u32 AO_setbits(u32 bits, int p, int n, u32 y)
+{
+	// Remove all bits except for the rightmost n bits in y
+	y &= ~(~0 << n);
+
+	// Shift the bits in y that we want into their expected location
+	y = y << (p - n + 1);
+
+	u32 mask = ~0; // all ones
+	mask = mask << n; // introduce n zeros at the end
+	mask = ~mask; // flip all zeros and ones, we should now have n ones in the right most location
+	mask = mask << (p - n + 1) ; // move the ones in the rightmost location up till they match p
+
+	bits = bits & ~mask;
+	bits = bits | y;
+
+	return bits;
+}
 
 u32 C_getbits(u32 bits, int p, int n)
 {

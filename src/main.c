@@ -6,12 +6,13 @@
 int
 main(void)
 {
-	char s1[] = "The Pied Piper Piped His Pipes.";
-	char s2[] = "H";
+	u32 x = 0b100001;
+	u32 y = 0b000011;
+	u32 r = 0b101101;
 
-	int result = AO_any(s1, s2);
+	u32 result = AO_setbits(x, 4, 3, y);
 
-	printf("We tried to find any ocurrance of %s in the string:\n\t>>%s\nWe found an ocurrance at index: %d\n", s2, s1, result);
+	printf("We expected %u, but got %u", r, result);
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();

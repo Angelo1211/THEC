@@ -6,7 +6,8 @@
 // AO_ stands for functions I (Angel Ortiz) wrote
 
 // 2.9
-u32 AO_getbits(u32 bits, int p, int n);
+u32 AO_setbits(u32 bits, int p, int n, u32 y);
+u32 C_getbits(u32 bits, int p, int n);
 
 // 2.8
 int AO_any(char s1[], char s2[]);
