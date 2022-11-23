@@ -2,6 +2,24 @@
 
 // 2.9 - Bitwise Operators
 // ----------------------------------------------------------------------------------------------------------
+// Ex 2-7 DONE Write a function invert(x, p, n) that returns x with the n bits that begin at position p inverted, leaving the others unchanged
+u32 AO_invert(u32 bits, int p, int n)
+{
+    // We're being very explicit here only because I enjoy stepping through the debugger and
+    // seeing the bitmask change. I just think it's neat.
+	u32 mask = ~0;
+    mask = mask << n;
+    mask = ~mask;
+    mask = mask << (p - n + 1);
+
+	// xor will do the inverting of the bits (if it was a 1 it'll be a zero, if it was a zero it'll be a one)
+    u32 region_of_interest = bits & mask;
+    region_of_interest = region_of_interest ^ mask;
+    u32 rest_of_the_bits = (bits & ~mask);
+    
+    
+	return region_of_interest | rest_of_the_bits;
+}
 
 // Ex 2-6 DONE Write a function setbits(x, p, n, y) that returns x with the n bits that begin at position p set to the rightmost n bits of y. Leaves other bits unchanged
 u32 AO_setbits(u32 bits, int p, int n, u32 y)
