@@ -2,22 +2,38 @@
 
 // 2.9 - Bitwise Operators
 // ----------------------------------------------------------------------------------------------------------
+// Ex 2-8 DONE Write a function rightrot(x, n) that returns the value of the integer x rotated to the right by n bit positions
+u32 AO_rightrot(u32 bits, int n)
+{
+	// Classic mask making shenanigans
+	u32 mask = ~(~0 << n);
+
+	u32 bits_that_will_wrap = mask & bits;
+	u32 bits_that_dont_wrap = bits >> n;
+
+	u32 wrapped_bits = (bits_that_will_wrap << (32 - n));
+
+	return bits_that_dont_wrap | wrapped_bits;
+
+	// Compressed
+	// return (bits >> n) | ((~(~0 << n) & bits) << (32 - n))
+}
+
 // Ex 2-7 DONE Write a function invert(x, p, n) that returns x with the n bits that begin at position p inverted, leaving the others unchanged
 u32 AO_invert(u32 bits, int p, int n)
 {
-    // We're being very explicit here only because I enjoy stepping through the debugger and
-    // seeing the bitmask change. I just think it's neat.
+	// We're being very explicit here only because I enjoy stepping through the debugger and
+	// seeing the bitmask change. I just think it's neat.
 	u32 mask = ~0;
-    mask = mask << n;
-    mask = ~mask;
-    mask = mask << (p - n + 1);
+	mask = mask << n;
+	mask = ~mask;
+	mask = mask << (p - n + 1);
 
 	// xor will do the inverting of the bits (if it was a 1 it'll be a zero, if it was a zero it'll be a one)
-    u32 region_of_interest = bits & mask;
-    region_of_interest = region_of_interest ^ mask;
-    u32 rest_of_the_bits = (bits & ~mask);
-    
-    
+	u32 region_of_interest = bits & mask;
+	region_of_interest = region_of_interest ^ mask;
+	u32 rest_of_the_bits = (bits & ~mask);
+	
 	return region_of_interest | rest_of_the_bits;
 }
 
