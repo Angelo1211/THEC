@@ -1,5 +1,26 @@
 #include "Chapter2.h"
 
+// 2.10 - Assignment Operators and Expressions
+// ----------------------------------------------------------------------------------------------------------
+// Ex 2-9 DONE  In a two's complement number system, x &= (x-1) deletes the rightmost bit in x. Explain why.
+// Use this observation to write a faster version of bitcount.
+int AO_bitcount(u32 bits)
+{
+	// Explanation
+	// (x - 1) will flip all the bits up to the last one that is set like so:
+	// 0b100 - 1 = 0b011 // 0b1010 - 1 = 0b1001 
+	// So when we and it with the original one we'll have everything flipped up to the rightmost bit.
+
+	// Faster bitcount, should really be this easy
+	int count = 0;
+	while (bits)
+	{
+		count += 1;
+		bits &= (bits - 1);
+	}
+	return count;
+}
+
 // 2.9 - Bitwise Operators
 // ----------------------------------------------------------------------------------------------------------
 // Ex 2-8 DONE Write a function rightrot(x, n) that returns the value of the integer x rotated to the right by n bit positions

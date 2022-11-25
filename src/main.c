@@ -6,10 +6,10 @@
 int
 main(void)
 {
-	u32 x = 0x000000FF;
-	u32 r = 0xF000000F;
+	u32 x = 0x00F000FF;
+	int r = 12;
 
-	u32 result = AO_rightrot(x, 8);
+	u32 result = AO_bitcount(x);
 
 	printf("We expected %u, got %u, which is %s.\n", r, result, r == result ? "Correct!": "Wrong! :(");
 

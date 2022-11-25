@@ -5,6 +5,9 @@
 // C_ stands for functions from the C Book
 // AO_ stands for functions I (Angel Ortiz) wrote
 
+// 2.10
+int AO_bitcount(u32 bits);
+
 // 2.9
 u32 AO_rightrot(u32 bits, int n);
 u32 AO_invert(u32 bits, int p, int n);
