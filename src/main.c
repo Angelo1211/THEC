@@ -1,5 +1,6 @@
 #include "Chapter1.h"
 #include "Chapter2.h"
+#include "Chapter3.h"
 
 #define PAUSE_ON_EXIT 0
 

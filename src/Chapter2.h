@@ -5,6 +5,9 @@
 // C_ stands for functions from the C Book
 // AO_ stands for functions I (Angel Ortiz) wrote
 
+// 2.11
+int AO_lower_compact(int c);
+
 // 2.10
 int AO_bitcount(u32 bits);
 

@@ -1,5 +1,16 @@
 #include "Chapter2.h"
 
+
+// 2.11 - Conditional Expressions
+// ----------------------------------------------------------------------------------------------------------
+// Ex 2-10 DONE Write a more compact lower with a conditional expression
+// I didn't even bother testing this one since it is so straightforward
+int AO_lower_compact(int c)
+{
+	return (c < 'A' || c > 'Z') ? c  : (c - 'A') + 'a';
+}
+
+
 // 2.10 - Assignment Operators and Expressions
 // ----------------------------------------------------------------------------------------------------------
 // Ex 2-9 DONE  In a two's complement number system, x &= (x-1) deletes the rightmost bit in x. Explain why.
