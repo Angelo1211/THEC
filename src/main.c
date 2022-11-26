@@ -7,13 +7,9 @@
 int
 main(void)
 {
-	u32 x = 0x00F000FF;
-	int r = 12;
-
-	u32 result = AO_bitcount(x);
-
-	printf("We expected %u, got %u, which is %s.\n", r, result, r == result ? "Correct!": "Wrong! :(");
+	AO_Test_binsearch();
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();
+	
 }

@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <limits.h>
 #include <float.h>
+#include <time.h>
 
 typedef uint8_t u8;
 #define U8_MIN 0

@@ -3,5 +3,6 @@
 #include "common.h"
 
 // 3.3
-int AO_binsearch(int x, int v[], int n);
-int C_binsearch(int x, int v[], int n);
+void AO_Test_binsearch();
+s64 AO_binsearch(s64 x, s64 v[], s64 n);
+s64 C_binsearch(s64 x, s64 v[], s64 n);
