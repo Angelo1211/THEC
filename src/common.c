@@ -22,7 +22,7 @@ AO_Read_Entire_File(char *file_name, size_t *size)
 
 		if ( result )
 		{
-			int read = fread(result, sizeof(char), file_size, file);
+			size_t read = fread(result, sizeof(char), file_size, file);
 			if ( read )
 			{
 				*size = read;

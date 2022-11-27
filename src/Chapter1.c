@@ -687,14 +687,14 @@ C_getline(char s[], int lim)
 	{
 		if ( i < lim - 1 )
 		{
-			s[i] = c;
+			s[i] = (char)c;
 		}
 	}
 
 	// If the last character was a new line set the second-to-last char as a newline
 	if ( c == '\n' )
 	{
-		s[i] = c;
+		s[i] = (char)c;
 		++i;
 	}
 
@@ -754,7 +754,7 @@ AO_print_longest_line(void)
 			lineLength = 0;
 		}
 		else
-			tempLineArray[lineLength++] = currentChar;
+			tempLineArray[lineLength++] = (char)currentChar;
 	} while ( (currentChar = getchar()) != EOF );
 
 	// Print longest line

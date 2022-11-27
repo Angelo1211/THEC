@@ -56,7 +56,7 @@ u32 AO_invert(u32 bits, int p, int n)
 {
 	// We're being very explicit here only because I enjoy stepping through the debugger and
 	// seeing the bitmask change. I just think it's neat.
-	u32 mask = ~0;
+	u32 mask = ~0u;
 	mask = mask << n;
 	mask = ~mask;
 	mask = mask << (p - n + 1);
@@ -78,7 +78,7 @@ u32 AO_setbits(u32 bits, int p, int n, u32 y)
 	// Shift the bits in y that we want into their expected location
 	y = y << (p - n + 1);
 
-	u32 mask = ~0; // all ones
+	u32 mask = ~0u; // all ones
 	mask = mask << n; // introduce n zeros at the end
 	mask = ~mask; // flip all zeros and ones, we should now have n ones in the right most location
 	mask = mask << (p - n + 1) ; // move the ones in the rightmost location up till they match p
@@ -259,14 +259,14 @@ void AO_New_For(void)
 	int i = 0;
 	char c = 0;
 
-	char s[10] = {};
+	char s[10] = {0};
 
 	while (true)
 	{
 		if (i >= lim -1) 
 			break;
 
-		c = getchar();
+		c = (char)getchar();
 
 		if (c == '\n')
 			break;
@@ -329,7 +329,7 @@ while(true)												\
 	previous = current;									\
 }														\
 printf(#type":\n Min-Max Signed %d, %d \n", min, max);	\
-unsigned type current_u = 0, previous_u = 0, max_u = 0; \
+unsigned type current_u = 0u, previous_u = 0u, max_u = 0u; \
 while(true) 											\
 {														\
 	current_u += 1;										\
@@ -356,6 +356,13 @@ printf(" Min-Max Unsigned %d, %d \n", min, max);		\
 }														\
 while(false)
 
+#if defined(_WIN32) 
+// NOTE(AO) This is the warning related to possible loss of information when casting from one size int to another
+//			It usually is something I do care about, but in this exercise there's a whole lot of casting going on
+//			some of it intentional, some of it not. It's not worth fixing, but I do want this to compile anyway.
+#pragma warning( disable : 4244)
+#endif
+
 // Ex 2-1 DONE: Write a program to determine the ranges of char, short, int, long, float and double
 void 
 AO_Find_Type_Numerical_Limits(void)
@@ -366,7 +373,7 @@ AO_Find_Type_Numerical_Limits(void)
 		printf("Char:\n\tSigned \t%d, %d \n\tUnsigned  %d, %d", SCHAR_MIN, SCHAR_MAX, 0, UCHAR_MAX);
 		printf("\nShort:\n\tSigned %d, %d \n\tUnsigned  %d, %d", SHRT_MIN, SHRT_MAX, 0, USHRT_MAX);
 		printf("\nInt:\n\tSigned %d, %d \n\tUnsigned  \t%d, %u", INT_MIN, INT_MAX, 0, UINT_MAX);
-		printf("\nLong(millions):\n\tSigned  %ld, %ld \n\tUnsigned  \t%ld, \t%lu", LONG_MIN / (u32)1e6, LONG_MAX / (u32)1e6, (long)0, ULONG_MAX / (u32)1e6);
+		printf("\nLong(millions):\n\tSigned  %ld, %ld \n\tUnsigned  \t%ld, \t%lu", LONG_MIN / (s32)1e6, LONG_MAX / (u32)1e6, (long)0, ULONG_MAX / (u32)1e6);
 		printf("\nFloat(12 digits, ):\n\t%.12f, %.12f ", FLT_MIN, FLT_MAX);
 		printf("\nDouble: Min-Max (12 digits max) %.12f, (Divided by 1e300!!!) %.1f ", DBL_MIN, DBL_MAX / 1e300);
 	}
@@ -447,3 +454,6 @@ AO_Find_Type_Numerical_Limits(void)
 	}
 
 }
+#if defined(_WIN32) 
+#pragma warning( default : 4244)
+#endif
