@@ -1,9 +1,40 @@
 #include "Chapter3.h"
 
+// 3.4 - Else-If
+// ----------------------------------------------------------------------------------------------------------
+// Ex 3-2 TODO Write a function escape (s, t) that converts characters like newline and tab into visible escape sequences
+// like \n and \t as it copies the string t to s. Use a switch. Write a function for the other direction as well,
+// converting escape sequences into the real characters.
+void AO_escape(char s[], char t[])
+{
+	int i = 0;
+	while (t[i] != '\n')
+	{
+		switch (s[i])
+		{
+			case '\n':
+			{
+
+			}break;
+
+			case '\t':
+			{
+
+			}break;
+
+			default:
+			{
+				t[i] = s[i];
+			}break;
+		}
+
+		i += 1;
+	}
+}
+
 // 3.3 - Else-If
 // ----------------------------------------------------------------------------------------------------------
-
-// Ex 3-1 TODO Make a binary search with only a single test inside the loop. Measure perf.
+// Ex 3-1 DONE Make a binary search with only a single test inside the loop. Measure perf.
 
 // 1*2^30 numbers in order 
 #define ARRAY_SIZE ((1ull << 30))

@@ -2,6 +2,9 @@
 
 #include "common.h"
 
+// Chapter 2 - Types Operators and Expressions
+// ----------------------------------------------------------------------------------------------------------
+
 // C_ stands for functions from the C Book
 // AO_ stands for functions I (Angel Ortiz) wrote
 

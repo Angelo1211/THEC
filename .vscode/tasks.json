@@ -8,7 +8,7 @@
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-g",
-                "${workspaceFolder}/src/*.c",
+                "${workspaceFolder}/src/unity.c",
                 "-o",
                 "${workspaceFolder}/build/${workspaceFolderBasename}"
             ],
