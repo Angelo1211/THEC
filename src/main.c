@@ -7,7 +7,7 @@
 int
 main(void)
 {
-	AO_Test_binsearch();
+	AO_Test_escape();
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();

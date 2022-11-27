@@ -30,7 +30,7 @@ rem /GL activates whole program optimization
 rem /W4 Activates all warnings
 rem /Gy Enables function level linking
 rem /Zi Activates complete debugging information
-rem /O2 Maximize Speed 
+rem /O2/d Maximize Speed / Disable optimizations
 rem /Zc:inline Removes unreferenced data or functions that are COMDATs (not sure what that really means)
 rem /WX Treats all warnings as errors
 rem /Gd Specifies the __cdecl calling convention
@@ -42,7 +42,7 @@ rem /Fo Sets the .obj file path directory
 
 set DISABLE_THESE_WARNINGS=/wd4996
 set DEFINES=/D "WIN32" /D "NDEBUG" /D "_CONSOLE"
-set COMPILER_FLAGS=/TC /GL /W4 /Gy /Zi /O2 /Zc:inline /fp:fast /WX /Gd /Oi /MD /GS- %DEFINES% %DISABLE_THESE_WARNINGS% /Fd"build/vc.pdb" /Fo"build/unity.obj"
+set COMPILER_FLAGS=/TC /GL /W4 /Gy /Zi /Od /Zc:inline /fp:fast /WX /Gd /Oi /MD /GS- %DEFINES% %DISABLE_THESE_WARNINGS% /Fd"build/vc.pdb" /Fo"build/unity.obj"
 
 rem Compiling The Code
 rem -------------------------------------------------------------------------------------------------------------------------------

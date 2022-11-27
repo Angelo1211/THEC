@@ -16,7 +16,6 @@
 */
 
 #define MAXLINE 1000 // Just testing some stuff
-#define test "test! \\ thing "
 
 // 1.10 - External Variables and scope
 // ----------------------------------------------------------------------------------------------------------

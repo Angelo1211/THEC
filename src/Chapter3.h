@@ -9,7 +9,9 @@
 // AO_ stands for functions I (Angel Ortiz) wrote
 
 // 3.4
-void AO_escape(char s[], char t[]);
+void AO_Test_escape();
+void AO_chars_to_escape(char d[], char s[]);
+void AO_escape_to_chars(char d[], char s[]);
 
 // 3.3
 void AO_Test_binsearch();

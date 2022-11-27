@@ -1,35 +1,112 @@
 #include "Chapter3.h"
 
-// 3.4 - Else-If
+// 3.4 - Switch
 // ----------------------------------------------------------------------------------------------------------
-// Ex 3-2 TODO Write a function escape (s, t) that converts characters like newline and tab into visible escape sequences
+// Ex 3-2 DONE Write a function escape (s, t) that converts characters like newline and tab into visible escape sequences
 // like \n and \t as it copies the string t to s. Use a switch. Write a function for the other direction as well,
 // converting escape sequences into the real characters.
-void AO_escape(char s[], char t[])
+void AO_Test_escape()
 {
-	int i = 0;
-	while (t[i] != '\n')
+	char source[] = "This is the test string with \n sneaky \t escape characters we want \n to make \t visible to the \nnake\nd eye.";
+
+	// NOTE(AO) 2x the other one's size because they could all be escape sequences, which once revealed would take two characters
+	//			Then +1 for the null terminating char.
+	size_t destination_size = strlen(source) * 2 + 1;
+
+	char *chars_revealed = malloc(destination_size);
+	char *chars_hidden = malloc(destination_size);
+
+	AO_escape_to_chars(chars_revealed, source);
+	printf("The Old string was: %s\nThe string with escape chars revealed is: %s\n", source, chars_revealed);
+
+	AO_chars_to_escape(chars_hidden, chars_revealed);
+
+	printf("We %s in converting the string back to it's previous representation.\n\nGot %s\n", strcmp(chars_hidden, source) == 0 ? "succeeded" : "failed", chars_hidden);
+
+	free(chars_revealed);
+	free(chars_hidden);
+}
+
+void AO_chars_to_escape(char d[], char s[])
+{
+	int srci = 0;
+	int dsti= 0;
+
+	while (s[srci])
 	{
-		switch (s[i])
+		switch (s[srci])
 		{
-			case '\n':
+			// This is a \ but we gotta make sure if it's actually an escape sequence
+			case '\\':
 			{
+				// Look ahead one char, check if it's any of our recognized escape sequences
+				switch (s[srci+1])
+				{
+					case 'n':
+					{
+						d[dsti++] = '\n';
+						srci += 2;
+					}break;
 
-			}break;
+					case 't':
+					{
+						d[dsti++] = '\t';
+						srci += 2;
+					}break;
 
-			case '\t':
-			{
+					// Not an escape sequence we recognize, just insert the '\'
+					default:
+					{
+						d[dsti++] = s[srci++];
+					}break;
+				}
 
 			}break;
 
 			default:
 			{
-				t[i] = s[i];
+				d[dsti++] = s[srci++];
 			}break;
 		}
-
-		i += 1;
 	}
+
+	// Null termination char
+	d[dsti] = 0;
+}
+
+void AO_escape_to_chars(char d[], char s[])
+{
+	int srci = 0;
+	int dsti= 0;
+
+	while (s[srci])
+	{
+		switch (s[srci])
+		{
+			case '\n':
+			{
+				d[dsti++] = '\\';
+				d[dsti++] = 'n';
+
+			}break;
+
+			case '\t':
+			{
+				d[dsti++] = '\\';
+				d[dsti++] = 't';
+
+			}break;
+
+			default:
+			{
+				d[dsti++] = s[srci];
+			}break;
+		}
+		srci += 1;
+	}
+
+	// Null termination char
+	d[dsti] = 0;
 }
 
 // 3.3 - Else-If
