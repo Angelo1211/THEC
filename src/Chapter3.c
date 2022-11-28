@@ -1,5 +1,67 @@
 #include "Chapter3.h"
 
+// 3.5 - Loops - While and For
+// ----------------------------------------------------------------------------------------------------------
+void AO_Print_IntArray(int v[], int n, int highlight_a, int highlight_b)
+{
+	printf("[ ");
+	for (int i = 0; i < n; ++i)
+	{
+		if (highlight_a == i)
+		{
+			printf("*%d*,", v[i]);
+		}
+		else if ( highlight_b == i )
+		{
+			printf("$%d$,", v[i]);
+		}
+		else 
+			printf(" %d, ", v[i]);
+	}
+	printf("]\n");
+}
+
+
+void AO_Test_shellsort()
+{
+	int test[] = {18, 23, 3, 7 , 5, 8 , 9 , 1, 3, 9, 118, 38, 2, 3};
+	int n = sizeof(test) / sizeof(test[0]);
+
+	// Before sorting
+	AO_Print_IntArray(test, n, -1, -1);
+
+	C_shellsort(test, n);
+
+	// After sorting, duh
+	AO_Print_IntArray(test, n, -1, -1);
+}
+
+
+void C_shellsort(int v[], int n)
+{
+	int gap, i, j, temp;
+
+	printf("Iter | gap | i | j | v[j] | v[j+gap]\n");
+	int iter = 0;
+	for (gap = n/2; gap > 0; gap /= 2)
+	{
+		for (i = gap; i < n; i++)
+		{
+			for (j=i-gap; j>= 0 && v[j] > v[j + gap]; j -= gap)
+			{
+				printf("%5d|%5d|%3d|%3d|%6d| %d\n", iter, gap, i, j, v[j], v[j + gap]);
+				AO_Print_IntArray(v, n, j, j+gap);
+				printf("\n");
+
+				temp = v[j];
+				v[j] = v[j +gap];
+				v[j+gap] = temp;
+				iter++;
+			}
+		}
+	}
+}
+
 // 3.4 - Switch
 // ----------------------------------------------------------------------------------------------------------
 // Ex 3-2 DONE Write a function escape (s, t) that converts characters like newline and tab into visible escape sequences
