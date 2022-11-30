@@ -9,6 +9,7 @@
 #include <limits.h>
 #include <float.h>
 #include <time.h>
+#include <string.h>
 
 typedef uint8_t u8;
 #define U8_MIN 0
@@ -54,6 +55,7 @@ void AO_DEBUG_Print_Visualized_WhiteSpace(char str[], int tab_stop_length);
 int AO_Find_Word_Length(char str[], int index);
 int C_getline(char line[], int maxline);
 void C_copy(char to[], char from[]);
+#define B2S(b) (b ? "Succeeded" : "failed")
 
 // Files
 char *AO_Read_Entire_File(char *file_name, size_t *size);

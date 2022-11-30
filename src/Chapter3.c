@@ -2,6 +2,30 @@
 
 // 3.5 - Loops - While and For
 // ----------------------------------------------------------------------------------------------------------
+void C_reverse(char s[])
+{
+	int c, i, j;
+
+	for (i = 0, j = strlen(s) - 1; i < j; i++, j--)
+	{
+		  c  = s[i];
+		s[i] = s[j];
+		s[j] = c;
+	}
+}
+
+void AO_reverse_ip(char s[])
+{
+	int n = strlen(s);
+	for (int i = 0; i < n / 2; ++i)
+	{
+		int b = n - 1 - i;
+		char c = s[i];
+		s[i] = s[b];
+		s[b] = c;
+	}
+}
+
 void AO_Print_IntArray(int v[], int n, int highlight_a, int highlight_b)
 {
 	printf("[ ");
