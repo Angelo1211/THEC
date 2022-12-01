@@ -2,21 +2,58 @@
 
 // 3.5 - Loops - While and For
 // ----------------------------------------------------------------------------------------------------------
+// Ex 3-3 TODO Write a function expand(s1, s2) that expands shorthand notations like a-z in the string s1 into 
+// the equivalent complete list abc...xyz in s2. Allow for letters of either case and digits, and be prepared 
+// to handle cases like a-b-c and a-z0-9 and -a-z. Arrange that a leading or trailng - is taken literally.
+#define SIZE 100
+#define CLEAR(array, size)	\
+do 							\
+{							\
+for(int i = 0; size; ++i ) 	\
+array[i] = 0;				\
+} while (0);
+
+void AO_Test_expand()
+{
+	char test[SIZE] = {0};
+
+	AO_expand("a-z", test);
+	CLEAR(test, SIZE);
+
+
+	AO_expand("0-9", test);
+	CLEAR(test, SIZE);
+}
+#undef SIZE
+
+void AO_expand(char s1[], char s2[])
+{
+	printf("Original: %s\n", s1);
+
+
+
+
+
+
+
+	printf("Expanded: %s\n", s2);
+}
+
 void C_reverse(char s[])
 {
 	int c, i, j;
 
-	for (i = 0, j = strlen(s) - 1; i < j; i++, j--)
+	for (i = 0, j = (int)strlen(s) - 1; i < j; i++, j--)
 	{
 		  c  = s[i];
 		s[i] = s[j];
-		s[j] = c;
+		s[j] = (char)c;
 	}
 }
 
 void AO_reverse_ip(char s[])
 {
-	int n = strlen(s);
+	int n = (int)strlen(s);
 	for (int i = 0; i < n / 2; ++i)
 	{
 		int b = n - 1 - i;

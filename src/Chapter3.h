@@ -9,6 +9,8 @@
 // AO_ stands for functions I (Angel Ortiz) wrote
 
 // 3.5
+void AO_Test_expand();
+void AO_expand(char s1[], char s2[]);
 void C_reverse(char s[]);
 void AO_reverse_ip(char s[]);
 void AO_Print_IntArray(int v[], int n, int highlight_a, int highlight_b);
