@@ -2,39 +2,40 @@
 
 // 3.5 - Loops - While and For
 // ----------------------------------------------------------------------------------------------------------
-// Ex 3-3 TODO Write a function expand(s1, s2) that expands shorthand notations like a-z in the string s1 into 
-// the equivalent complete list abc...xyz in s2. Allow for letters of either case and digits, and be prepared 
+// Ex 3-3 TODO Write a function expand(s1, s2) that expands shorthand notations like a-z in the string s1 into
+// the equivalent complete list abc...xyz in s2. Allow for letters of either case and digits, and be prepared
 // to handle cases like a-b-c and a-z0-9 and -a-z. Arrange that a leading or trailng - is taken literally.
-#define SIZE 100
-#define CLEAR(array, size)	\
-do 							\
-{							\
-for(int i = 0; size; ++i ) 	\
-array[i] = 0;				\
-} while (0);
-
 void AO_Test_expand()
 {
-	char test[SIZE] = {0};
+	char *strings_to_test[] = {
+		"a-z",
+		"0-9",
+		"a-e",
+		"d-z",
+		"a-z-",
+		"z-a-",
+		"-1-6-",
+		"a-ee-a",
+		"a-R-L",
+		"1-9-1",
+		"5-5",
+		"",
+	};
 
-	AO_expand("a-z", test);
-	CLEAR(test, SIZE);
+	char result[1000] = {0};
 
-
-	AO_expand("0-9", test);
-	CLEAR(test, SIZE);
+	int i = 0;
+	while (strings_to_test[i])
+	{
+		AO_expand(strings_to_test[i], result);
+		++i;
+	}
 }
 #undef SIZE
 
 void AO_expand(char s1[], char s2[])
 {
 	printf("Original: %s\n", s1);
-
-
-
-
-
-
 
 	printf("Expanded: %s\n", s2);
 }
@@ -45,7 +46,7 @@ void C_reverse(char s[])
 
 	for (i = 0, j = (int)strlen(s) - 1; i < j; i++, j--)
 	{
-		  c  = s[i];
+		c = s[i];
 		s[i] = s[j];
 		s[j] = (char)c;
 	}
@@ -72,20 +73,19 @@ void AO_Print_IntArray(int v[], int n, int highlight_a, int highlight_b)
 		{
 			printf("*%d*,", v[i]);
 		}
-		else if ( highlight_b == i )
+		else if (highlight_b == i)
 		{
 			printf("$%d$,", v[i]);
 		}
-		else 
+		else
 			printf(" %d, ", v[i]);
 	}
 	printf("]\n");
 }
 
-
 void AO_Test_shellsort()
 {
-	int test[] = {18, 23, 3, 7 , 5, 8 , 9 , 1, 3, 9, 118, 38, 2, 3};
+	int test[] = {18, 23, 3, 7, 5, 8, 9, 1, 3, 9, 118, 38, 2, 3};
 	int n = sizeof(test) / sizeof(test[0]);
 
 	// Before sorting
@@ -97,26 +97,25 @@ void AO_Test_shellsort()
 	AO_Print_IntArray(test, n, -1, -1);
 }
 
-
 void C_shellsort(int v[], int n)
 {
 	int gap, i, j, temp;
 
 	printf("Iter | gap | i | j | v[j] | v[j+gap]\n");
 	int iter = 0;
-	for (gap = n/2; gap > 0; gap /= 2)
+	for (gap = n / 2; gap > 0; gap /= 2)
 	{
 		for (i = gap; i < n; i++)
 		{
-			for (j=i-gap; j>= 0 && v[j] > v[j + gap]; j -= gap)
+			for (j = i - gap; j >= 0 && v[j] > v[j + gap]; j -= gap)
 			{
 				printf("%5d|%5d|%3d|%3d|%6d| %d\n", iter, gap, i, j, v[j], v[j + gap]);
-				AO_Print_IntArray(v, n, j, j+gap);
+				AO_Print_IntArray(v, n, j, j + gap);
 				printf("\n");
 
 				temp = v[j];
-				v[j] = v[j +gap];
-				v[j+gap] = temp;
+				v[j] = v[j + gap];
+				v[j + gap] = temp;
 				iter++;
 			}
 		}
@@ -153,43 +152,47 @@ void AO_Test_escape()
 void AO_chars_to_escape(char d[], char s[])
 {
 	int srci = 0;
-	int dsti= 0;
+	int dsti = 0;
 
 	while (s[srci])
 	{
 		switch (s[srci])
 		{
-			// This is a \ but we gotta make sure if it's actually an escape sequence
-			case '\\':
+		// This is a \ but we gotta make sure if it's actually an escape sequence
+		case '\\':
+		{
+			// Look ahead one char, check if it's any of our recognized escape sequences
+			switch (s[srci + 1])
 			{
-				// Look ahead one char, check if it's any of our recognized escape sequences
-				switch (s[srci+1])
-				{
-					case 'n':
-					{
-						d[dsti++] = '\n';
-						srci += 2;
-					}break;
+			case 'n':
+			{
+				d[dsti++] = '\n';
+				srci += 2;
+			}
+			break;
 
-					case 't':
-					{
-						d[dsti++] = '\t';
-						srci += 2;
-					}break;
+			case 't':
+			{
+				d[dsti++] = '\t';
+				srci += 2;
+			}
+			break;
 
-					// Not an escape sequence we recognize, just insert the '\'
-					default:
-					{
-						d[dsti++] = s[srci++];
-					}break;
-				}
-
-			}break;
-
+			// Not an escape sequence we recognize, just insert the '\'
 			default:
 			{
 				d[dsti++] = s[srci++];
-			}break;
+			}
+			break;
+			}
+		}
+		break;
+
+		default:
+		{
+			d[dsti++] = s[srci++];
+		}
+		break;
 		}
 	}
 
@@ -200,30 +203,31 @@ void AO_chars_to_escape(char d[], char s[])
 void AO_escape_to_chars(char d[], char s[])
 {
 	int srci = 0;
-	int dsti= 0;
+	int dsti = 0;
 
 	while (s[srci])
 	{
 		switch (s[srci])
 		{
-			case '\n':
-			{
-				d[dsti++] = '\\';
-				d[dsti++] = 'n';
+		case '\n':
+		{
+			d[dsti++] = '\\';
+			d[dsti++] = 'n';
+		}
+		break;
 
-			}break;
+		case '\t':
+		{
+			d[dsti++] = '\\';
+			d[dsti++] = 't';
+		}
+		break;
 
-			case '\t':
-			{
-				d[dsti++] = '\\';
-				d[dsti++] = 't';
-
-			}break;
-
-			default:
-			{
-				d[dsti++] = s[srci];
-			}break;
+		default:
+		{
+			d[dsti++] = s[srci];
+		}
+		break;
 		}
 		srci += 1;
 	}
@@ -236,7 +240,7 @@ void AO_escape_to_chars(char d[], char s[])
 // ----------------------------------------------------------------------------------------------------------
 // Ex 3-1 DONE Make a binary search with only a single test inside the loop. Measure perf.
 
-// 1*2^30 numbers in order 
+// 1*2^30 numbers in order
 #define ARRAY_SIZE ((1ull << 30))
 
 typedef enum Search_t
@@ -245,14 +249,13 @@ typedef enum Search_t
 	s_binary_c,
 	s_binary_ao,
 	s_count,
-}Search_t;
+} Search_t;
 
-char *Search_Names[] = 
-{
-	"Linear",
-	"Binary_C",
-	"Binary_AO"
-};
+char *Search_Names[] =
+	{
+		"Linear",
+		"Binary_C",
+		"Binary_AO"};
 
 void AO_RunSearch(Search_t type, s64 number, s64 array[], s64 size)
 {
@@ -261,45 +264,48 @@ void AO_RunSearch(Search_t type, s64 number, s64 array[], s64 size)
 	s64 result = -1;
 	switch (type)
 	{
-		case s_linear:
+	case s_linear:
+	{
+		for (s64 i = 0; i < ARRAY_SIZE; ++i)
 		{
-			for (s64 i = 0; i < ARRAY_SIZE; ++i)
+			if (array[i] == number)
 			{
-				if (array[i] == number)
-				{
-					result = i;
-					break;
-				}
+				result = i;
+				break;
 			}
-		}break;
-
-		case s_binary_c:
-		{
-			result = C_binsearch(number, array, size);
-		}break;
-
-		case s_binary_ao:
-		{
-			result = AO_binsearch(number, array, size);
-		}break;
-
-		default:
-		{
-			printf("Unrecognized search type!\n");
-			return;
 		}
 	}
+	break;
 
-	f64 delta_t = (double)(clock() - start)/ CLOCKS_PER_SEC;
+	case s_binary_c:
+	{
+		result = C_binsearch(number, array, size);
+	}
+	break;
+
+	case s_binary_ao:
+	{
+		result = AO_binsearch(number, array, size);
+	}
+	break;
+
+	default:
+	{
+		printf("Unrecognized search type!\n");
+		return;
+	}
+	}
+
+	f64 delta_t = (double)(clock() - start) / CLOCKS_PER_SEC;
 	printf("Finished running a %s search in %fms \n", Search_Names[type], delta_t * 1000.0f);
-	printf("Search for %lld %s, and it was %s\n", number, (result != -1) ? "succeeded" : "failed", (result == number) ? "correct" : "incorrect" );
+	printf("Search for %lld %s, and it was %s\n", number, (result != -1) ? "succeeded" : "failed", (result == number) ? "correct" : "incorrect");
 }
 
-#define RUN_ALL_SEARCHES(number, array, size) 	\
-AO_RunSearch(s_linear, number, array, size);	\
-AO_RunSearch(s_binary_c, number, array, size);	\
-AO_RunSearch(s_binary_ao, number, array, size);	\
-putchar('\n');									\
+#define RUN_ALL_SEARCHES(number, array, size)       \
+	AO_RunSearch(s_linear, number, array, size);    \
+	AO_RunSearch(s_binary_c, number, array, size);  \
+	AO_RunSearch(s_binary_ao, number, array, size); \
+	putchar('\n');
 
 void AO_Test_binsearch()
 {
@@ -324,11 +330,11 @@ void AO_Test_binsearch()
 s64 AO_binsearch(s64 x, s64 v[], s64 n)
 {
 	s64 low = 0;
-	s64 high = n -1;
+	s64 high = n - 1;
 
 	s64 mid = (low + high) / 2;
 	s64 val = v[mid];
-	while (((x > val) ? (low = mid + 1) : low) <= ((x < val) ? (high = mid -1) : high))
+	while (((x > val) ? (low = mid + 1) : low) <= ((x < val) ? (high = mid - 1) : high))
 	{
 		mid = (low + high) / 2;
 		val = v[mid];
@@ -345,12 +351,12 @@ s64 C_binsearch(s64 x, s64 v[], s64 n)
 	s64 low, high, mid;
 
 	low = 0;
-	high = n -1;
+	high = n - 1;
 
 	while (low <= high)
 	{
 		mid = (low + high) / 2;
-		if (x  < v[mid])
+		if (x < v[mid])
 		{
 			high = mid - 1;
 		}
@@ -358,7 +364,7 @@ s64 C_binsearch(s64 x, s64 v[], s64 n)
 		{
 			low = mid + 1;
 		}
-		else 
+		else
 			return mid;
 	}
 	return -1;

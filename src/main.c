@@ -7,7 +7,7 @@
 int
 main(void)
 {
-	AO_Test_Expand();
+	AO_Test_expand();
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();
