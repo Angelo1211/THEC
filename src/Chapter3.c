@@ -2,24 +2,29 @@
 
 // 3.5 - Loops - While and For
 // ----------------------------------------------------------------------------------------------------------
-// Ex 3-3 TODO Write a function expand(s1, s2) that expands shorthand notations like a-z in the string s1 into
+// Ex 3-3 DONE Write a function expand(s1, s2) that expands shorthand notations like a-z in the string s1 into
 // the equivalent complete list abc...xyz in s2. Allow for letters of either case and digits, and be prepared
 // to handle cases like a-b-c and a-z0-9 and -a-z. Arrange that a leading or trailng - is taken literally.
 void AO_Test_expand()
 {
 	char *strings_to_test[] = {
-		"a-z",
 		"0-9",
+		"-1-6-",
+		"1-5-9",
+		"1-9-1",
+		"5-5",
+		"a-z",
 		"a-e",
 		"d-z",
 		"a-z-",
 		"z-a-",
-		"-1-6-",
 		"a-ee-a",
-		"a-R-L",
-		"1-9-1",
-		"5-5",
-		"",
+		"a-r-l",
+		"A-Z",
+		"a-W",
+		"A-w",
+		"a-8",
+		NULL,
 	};
 
 	char result[1000] = {0};
@@ -31,11 +36,88 @@ void AO_Test_expand()
 		++i;
 	}
 }
-#undef SIZE
 
 void AO_expand(char s1[], char s2[])
 {
 	printf("Original: %s\n", s1);
+
+	size_t i = 0;
+	size_t j = 0;
+
+	// All expansions are of the form:
+	//	(-)start-end(-)
+	// And can be chained together:
+	// start-end-end2
+	// With end2 not necessarily being larger than end
+
+	while(s1[i])
+	{
+		char first  = s1[i];
+		char middle = s1[i + 1];
+		char last   = s1[i + 2];
+
+		// Trailing / leading dash
+		if (first == '-')
+		{
+			// This tripped me up for a while, leading - are not treated as expansions but simply literals, you don't need to do anyting with them
+			// Same deal with trailing -, we just write it
+			if ((i == 0) || (middle == 0))
+			{
+				s2[j++] = s1[i++];
+				continue;
+			}
+
+			assert(0 && "We encountered a mid-string dash. Should not have happened!");
+		}
+
+		// Text that doesn't need expansion just gets copied! Alternatively:
+		// If we don't have a dash we don't need to expand so just copy the text
+		// If we do have a dash but the character after that is null it's a trailing dash
+		if ( middle != '-' || last == 0) 
+		{
+			// In both of these cases we want to copy the current letter and move on
+			s2[j++] = s1[i++];
+			continue;
+		}
+
+		// Recap: We know theres something that kinda looks like an expansion of the form
+		//	x - y here, but we're not sure what x and y are let's rule out bad cases
+		// If it's not alphanumeric or not a matching range we don't have any way to expand this, so skip
+		// We can only expand values of x and y that are of the same type (both alpha, or both numeric) not mixed
+		if (!isalnum(first) || !isalnum(last) || ( isalpha(first) != isalpha(last) ) || ( isdigit(first) != isdigit(last) ))
+		{
+			// Just copy it all without expanding!
+			s2[j++] = s1[i++]; // first
+			s2[j++] = s1[i++]; // middle
+			s2[j++] = s1[i++]; // last
+			continue;
+		}
+
+		// Slightly trickier case, we want to respect the case of the characters, but if the user mixed them we will force lower case
+		if (isalpha(first) && isalpha(last))
+		{
+			if ( ( islower(first) != islower(last) ) ||  ( isupper(first) != isupper(last) ))
+			{
+				first = tolower(first);
+				last = tolower(last);
+			}
+		}
+
+		// We should be cool with doing an expansion now! This works for first > last && first < last && first == last
+		for (int k = first; k != last; k += (first < last) ? 1 : -1 )
+		{
+			s2[j++] = k;
+		}
+
+		// Expansion complete! Move past this text
+		// But don't move past the last char in the expansion
+		// This is to allow concatenated expansions, of the form "1-3-5"
+		// Which will now be treated as 1-23-5
+		i += 2; 
+	}
+
+	// We're done here, write a null terminator
+	s2[j] = 0;
 
 	printf("Expanded: %s\n", s2);
 }
