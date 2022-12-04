@@ -7,7 +7,10 @@
 int
 main(void)
 {
-	AO_Test_expand();
+	int t = 100;
+	char temp[100];
+	C_itoa(t , temp);
+	printf("We converted the numer %d into the string %s.\n", t, temp);
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();

@@ -2,11 +2,11 @@
 
 #include "common.h"
 
-// Chapter 1 - A Tutorial Introduction
-// ----------------------------------------------------------------------------------------------------------
-
 // C_ stands for functions from the C Book
 // AO_ stands for functions I (Angel Ortiz) wrote
+
+// Chapter 1 - A Tutorial Introduction
+// ----------------------------------------------------------------------------------------------------------
 
 // 1.10
 void AO_Check_For_Errors(void);

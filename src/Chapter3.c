@@ -1,5 +1,31 @@
 #include "Chapter3.h"
 
+// 3.6 - Loops - Do-While
+// ----------------------------------------------------------------------------------------------------------
+// Ex 3-4 TODO In a two's complement number representation, our version of itoa does not handle the largest 
+// negative number, that is, the value of n equal to -(2^(wordsize - 1)). Explain why not. Modify it to print
+// that value correctly, regardless of the machine it runs.
+void AO_itoa(int n, char s[])
+{
+
+}
+
+void C_itoa(int n, char s[])
+{
+	int i, sign;
+
+	if ((sign = n) < 0) // Record the sign
+		n = -n;			// Make n positive
+	i = 0;
+	do {						// Generate digits in reverse order
+		s[i++] = n % 10 + '0'; 	// Get next digit
+	} while((n /= 10) > 0); 	// Delete it 
+	if (sign < 0)
+		s[i++] = '-';
+	s[i] = '\0';
+	C_reverse(s);
+}
+
 // 3.5 - Loops - While and For
 // ----------------------------------------------------------------------------------------------------------
 // Ex 3-3 DONE Write a function expand(s1, s2) that expands shorthand notations like a-z in the string s1 into

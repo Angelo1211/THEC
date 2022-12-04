@@ -2,11 +2,15 @@
 
 #include "common.h"
 
+// C_ stands for functions from the C Book
+// AO_ stands for functions I (Angel Ortiz) wrote
+
 // Chapter 3 - Control Flow
 // ----------------------------------------------------------------------------------------------------------
 
-// C_ stands for functions from the C Book
-// AO_ stands for functions I (Angel Ortiz) wrote
+// 3.6
+void AO_itoa(int n, char s[]);
+void C_itoa(int n, char s[]);
 
 // 3.5
 void AO_Test_expand();
