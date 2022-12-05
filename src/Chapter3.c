@@ -7,7 +7,11 @@
 // that value correctly, regardless of the machine it runs.
 void AO_itoa(int n, char s[])
 {
+	(void)n;
+	(void)s;
 
+	// NOTE(AO) Our previous code failed to work because when we make the number positive we will overflow!
+	// We'll fix this at a later time though.
 }
 
 void C_itoa(int n, char s[])
@@ -16,13 +20,18 @@ void C_itoa(int n, char s[])
 
 	if ((sign = n) < 0) // Record the sign
 		n = -n;			// Make n positive
+
 	i = 0;
+
 	do {						// Generate digits in reverse order
 		s[i++] = n % 10 + '0'; 	// Get next digit
 	} while((n /= 10) > 0); 	// Delete it 
+
 	if (sign < 0)
 		s[i++] = '-';
+
 	s[i] = '\0';
+
 	C_reverse(s);
 }
 
@@ -50,6 +59,7 @@ void AO_Test_expand()
 		"a-W",
 		"A-w",
 		"a-8",
+		"%-3",
 		NULL,
 	};
 
@@ -63,12 +73,12 @@ void AO_Test_expand()
 	}
 }
 
-void AO_expand(char s1[], char s2[])
+void AO_expand(char src[], char dst[])
 {
-	printf("Original: %s\n", s1);
+	printf("Original: %s\n", src);
 
-	size_t i = 0;
-	size_t j = 0;
+	size_t readID = 0;
+	size_t writeID = 0;
 
 	// All expansions are of the form:
 	//	(-)start-end(-)
@@ -76,20 +86,20 @@ void AO_expand(char s1[], char s2[])
 	// start-end-end2
 	// With end2 not necessarily being larger than end
 
-	while(s1[i])
+	while(src[readID])
 	{
-		char first  = s1[i];
-		char middle = s1[i + 1];
-		char last   = s1[i + 2];
+		char first  = src[readID];
+		char middle = src[readID + 1];
+		char last   = src[readID + 2];
 
 		// Trailing / leading dash
 		if (first == '-')
 		{
 			// This tripped me up for a while, leading - are not treated as expansions but simply literals, you don't need to do anyting with them
 			// Same deal with trailing -, we just write it
-			if ((i == 0) || (middle == 0))
+			if ((readID == 0) || (middle == '\0'))
 			{
-				s2[j++] = s1[i++];
+				dst[writeID++] = src[readID++];
 				continue;
 			}
 
@@ -102,7 +112,7 @@ void AO_expand(char s1[], char s2[])
 		if ( middle != '-' || last == 0) 
 		{
 			// In both of these cases we want to copy the current letter and move on
-			s2[j++] = s1[i++];
+			dst[writeID++] = src[readID++];
 			continue;
 		}
 
@@ -110,12 +120,12 @@ void AO_expand(char s1[], char s2[])
 		//	x - y here, but we're not sure what x and y are let's rule out bad cases
 		// If it's not alphanumeric or not a matching range we don't have any way to expand this, so skip
 		// We can only expand values of x and y that are of the same type (both alpha, or both numeric) not mixed
-		if (!isalnum(first) || !isalnum(last) || ( isalpha(first) != isalpha(last) ) || ( isdigit(first) != isdigit(last) ))
+		if ( !isalnum(first) || !isalnum(last) || ((bool)isalpha(first) != (bool)isalpha(last)) || ((bool)isdigit(first) != (bool)isdigit(last)) )	
 		{
 			// Just copy it all without expanding!
-			s2[j++] = s1[i++]; // first
-			s2[j++] = s1[i++]; // middle
-			s2[j++] = s1[i++]; // last
+			dst[writeID++] = src[readID++]; // first
+			dst[writeID++] = src[readID++]; // middle
+			dst[writeID++] = src[readID++]; // last
 			continue;
 		}
 
@@ -124,28 +134,28 @@ void AO_expand(char s1[], char s2[])
 		{
 			if ( ( islower(first) != islower(last) ) ||  ( isupper(first) != isupper(last) ))
 			{
-				first = tolower(first);
-				last = tolower(last);
+				first = (char)tolower(first);
+				last  = (char)tolower(last);
 			}
 		}
 
 		// We should be cool with doing an expansion now! This works for first > last && first < last && first == last
 		for (int k = first; k != last; k += (first < last) ? 1 : -1 )
 		{
-			s2[j++] = k;
+			dst[writeID++] = (char)k;
 		}
 
 		// Expansion complete! Move past this text
 		// But don't move past the last char in the expansion
 		// This is to allow concatenated expansions, of the form "1-3-5"
 		// Which will now be treated as 1-23-5
-		i += 2; 
+		readID += 2; 
 	}
 
 	// We're done here, write a null terminator
-	s2[j] = 0;
+	dst[writeID] = 0;
 
-	printf("Expanded: %s\n", s2);
+	printf("Expanded: %s\n\n", dst);
 }
 
 void C_reverse(char s[])
