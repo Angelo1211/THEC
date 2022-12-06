@@ -2,18 +2,48 @@
 
 // 3.6 - Loops - Do-While
 // ----------------------------------------------------------------------------------------------------------
-// Ex 3-4 TODO In a two's complement number representation, our version of itoa does not handle the largest 
+// Ex 3-4 DONE In a two's complement number representation, our version of itoa does not handle the largest 
 // negative number, that is, the value of n equal to -(2^(wordsize - 1)). Explain why not. Modify it to print
 // that value correctly, regardless of the machine it runs.
 void AO_itoa(int n, char s[])
 {
-	(void)n;
-	(void)s;
+	int i = 0;
+	bool negative = n < 0;
+	u32 a = abs(n);
 
-	// NOTE(AO) Our previous code failed to work because when we make the number positive we will overflow!
-	// We'll fix this at a later time though.
+	do
+	{
+		s[i++] = a % 10 + '0';
+	} while((a /= 10) > 0);
+
+	if ( negative )
+		s[i++] = '-';
+
+	s[i] = '\0';
+	C_reverse(s);
 }
 
+// NOTE(AO) This code failed to work because there is no equivalently sized positive number
+//			To the largest negative oneWhen we try to make the maximum negative number positive. 
+//			For example here's a table of two's complement values for a 4 bit number.
+//			Binary | Decimal
+//			-------|--------
+//			0111   |   +7
+//			0110   |   +6
+//			0101   |   +5
+//			0100   |   +4
+//			0011   |   +3
+//			0010   |   +2
+//			0001   |   +1
+//			0000   |   0
+//			1111   |   -1
+//			1110   |   -2
+//			1101   |   -3
+//			1100   |   -4
+//			1011   |   -5
+//			1010   |   -6
+//			1001   |   -7
+//			1000   |   -8
 void C_itoa(int n, char s[])
 {
 	int i, sign;
