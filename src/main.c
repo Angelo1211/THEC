@@ -4,24 +4,22 @@
 
 #define PAUSE_ON_EXIT 0
 
+#define MAX_STRING (1 << 10)
+
 int
 main(void)
 {
-	int t = INT_MIN;
-	char temp[100];
-	C_itoa(t , temp);
-	printf("We converted the numer %d into the string %s.\n", t, temp);
+	int number = 123456789;
+	char s[MAX_STRING] = {0};
+	
+	printf("Representing the number % in these bases:\n", number);
+	printf("-----------------------------------------\n");
 
-	AO_itoa(t , temp);
-	printf("We converted the numer %d into the string %s.\n", t, temp);
-
-	t = -120;
-	AO_itoa(t , temp);
-	printf("We converted the numer %d into the string %s.\n", t, temp);
-
-	t = -1;
-	AO_itoa(t , temp);
-	printf("We converted the numer %d into the string %s.\n", t, temp);
+	for (int b = 2; b <= 16; ++b)
+	{
+		AO_itob(number, s, b);
+		printf("%4d | %s ", b, s);
+	}
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();

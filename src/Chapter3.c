@@ -2,6 +2,28 @@
 
 // 3.6 - Loops - Do-While
 // ----------------------------------------------------------------------------------------------------------
+// Ex 3-5 TODO Write a function itob(n, s, b) that converts the integer n into a base b character representation 
+// in the string s. In particular, itob(n, s, 16) formats n as a hexadecimal integer s.
+void AO_itob(int n, char s[], int b)
+{
+	if (b < 2 || b > 16)
+	{
+		printf("Invalid base value passed to itob, we only allow values from 2 - 16 inclusive.\n");
+		return;
+	}
+
+	int i = 0;
+	bool negative = n < 0;
+	u32 a = abs(n);
+
+
+	if ( negative )
+		s[i++] = '-';
+
+	s[i] = '\0';
+	C_reverse(s);
+}
+
 // Ex 3-4 DONE In a two's complement number representation, our version of itoa does not handle the largest 
 // negative number, that is, the value of n equal to -(2^(wordsize - 1)). Explain why not. Modify it to print
 // that value correctly, regardless of the machine it runs.
