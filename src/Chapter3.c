@@ -2,7 +2,7 @@
 
 // 3.6 - Loops - Do-While
 // ----------------------------------------------------------------------------------------------------------
-// Ex 3-5 TODO Write a function itob(n, s, b) that converts the integer n into a base b character representation 
+// Ex 3-5 DONE Write a function itob(n, s, b) that converts the integer n into a base b character representation 
 // in the string s. In particular, itob(n, s, 16) formats n as a hexadecimal integer s.
 void AO_itob(int n, char s[], int b)
 {
@@ -12,10 +12,15 @@ void AO_itob(int n, char s[], int b)
 		return;
 	}
 
-	int i = 0;
 	bool negative = n < 0;
 	u32 a = abs(n);
 
+	int i = 0;
+	do
+	{
+		int rem = a % b;
+		s[i++] = (rem < 10) ? '0' + rem : 'A' + (rem - 10);
+	} while((a /= b) > 0);
 
 	if ( negative )
 		s[i++] = '-';

@@ -18,7 +18,7 @@ main(void)
 	for (int b = 2; b <= 16; ++b)
 	{
 		AO_itob(number, s, b);
-		printf("%4d | %s ", b, s);
+		printf("%4d | %s \n", b, s);
 	}
 
 	if (PAUSE_ON_EXIT) 
