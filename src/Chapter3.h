@@ -9,6 +9,7 @@
 // ----------------------------------------------------------------------------------------------------------
 
 // 3.6
+void AO_itoa_pad(int n, char s[], int minimum_width);
 void AO_itob(int n, char s[], int b);
 void AO_itoa(int n, char s[]);
 void C_itoa(int n, char s[]);

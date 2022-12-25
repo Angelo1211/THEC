@@ -1,6 +1,7 @@
 #include "Chapter1.h"
 #include "Chapter2.h"
 #include "Chapter3.h"
+#include "Chapter4.h"
 
 #define PAUSE_ON_EXIT 0
 
@@ -9,18 +10,15 @@
 int
 main(void)
 {
-	int number = 123456789;
+	int number = 2468;
 	char s[MAX_STRING] = {0};
+	int width = 10;
+
+	AO_itoa_pad(number, s, width);
+
+	printf("We got the number: %d\n", number);
+	printf("And after padding got: %s\n", s);
 	
-	printf("Representing the number % in these bases:\n", number);
-	printf("-----------------------------------------\n");
-
-	for (int b = 2; b <= 16; ++b)
-	{
-		AO_itob(number, s, b);
-		printf("%4d | %s \n", b, s);
-	}
-
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();
 }

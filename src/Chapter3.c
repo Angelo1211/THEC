@@ -2,6 +2,31 @@
 
 // 3.6 - Loops - Do-While
 // ----------------------------------------------------------------------------------------------------------
+// Ex 3-6 DONE Write a version of itoa that accepts three arguments instead of two. The third argument is a 
+// minimum field width; the converted number must be padded with blanks on the left if necessary to make it wide
+// enough.
+void AO_itoa_pad(int n, char s[], int minimum_width)
+{
+	int i = 0;
+	bool negative = n < 0;
+	u32 a = abs(n);
+
+	do
+	{
+		s[i++] = a % 10 + '0';
+	} while((a /= 10) > 0);
+
+	if ( negative )
+		s[i++] = '-';
+
+	
+	while (i < minimum_width)
+		s[i++] = ' ';
+
+	s[i] = '\0';
+	C_reverse(s);
+}
+
 // Ex 3-5 DONE Write a function itob(n, s, b) that converts the integer n into a base b character representation 
 // in the string s. In particular, itob(n, s, 16) formats n as a hexadecimal integer s.
 void AO_itob(int n, char s[], int b)
