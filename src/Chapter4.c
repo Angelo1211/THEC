@@ -1,6 +1,40 @@
 #include "Chapter4.h"
 
 #define MAXLINE_4 1000
+// EX 4-1 DONE Write the function strrindex(s, t), which returns the position of the rightmost ocurrance of t in s
+// or -1 if there is none
+int AO_strrindex(char s[], char t[])
+{
+	int result = -1;
+	int s_len = strlen(s);
+	int t_len = strlen(t);
+
+	if (t_len == 0 || s_len == 0 || (s_len < t_len))
+		return result;
+	
+	for (int si = s_len - 1; si >= 0; --si)
+	{
+		bool found = true;
+
+		int temp = 0;
+		for (int ti = t_len - 1; ti >= 0; --ti, ++temp)
+		{
+			if ((si - temp < 0) || (s[si - temp] != t[ti]))
+			{
+				found = false;
+				break;
+			}
+		}
+
+		if (found)
+		{
+			result = si - t_len + 1;
+			break;
+		}
+	}
+
+	return result;
+}
 
 int C_minigrep(char pattern[])
 {

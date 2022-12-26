@@ -9,6 +9,7 @@
 // ----------------------------------------------------------------------------------------------------------
 
 // 4.1 - Basics of Functions
+int AO_strrindex(char s[], char t[]);
 int C_minigrep(char pattern[]);
 int C_strindex(char s[], char t[]);
 int C_getline_4(char s[], int lim);
