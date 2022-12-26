@@ -7,3 +7,8 @@
 
 // Chapter 4 - Functions and Program Structure
 // ----------------------------------------------------------------------------------------------------------
+
+// 4.1 - Basics of Functions
+int C_minigrep(char pattern[]);
+int C_strindex(char s[], char t[]);
+int C_getline_4(char s[], int lim);
