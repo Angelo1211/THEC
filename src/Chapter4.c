@@ -1,5 +1,94 @@
 #include "Chapter4.h"
 
+// 4.2 - Functions Returning Non-Integers
+// ----------------------------------------------------------------------------------------------------------
+// EX 4-2 TODO Extend atof to handle scientific notation of the form 123.45e-6
+double AO_atof(char s[])
+{
+	int i = 0;
+
+	// Skip whitespace
+	while (isspace(s[i]))
+		i++;
+
+	// Check sign, and eat the sign char
+	int sign = (s[i] == '-') ? -1 : 1;
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+
+	// Parse the non-fractional part
+	double val = 0.0;
+	while (isdigit(s[i]))
+	{
+		val = 10.0 * val + (s[i] - '0');
+		i++;
+	}
+
+	// Is this a fractional number?
+	if (s[i] == '.')
+		i++;
+	
+	double power = 1.0;
+	while (isdigit(s[i]))
+	{
+		val = 10.0 * val + (s[i] - '0');
+		power *= 10.0;
+		i++;
+	}
+
+	if (s[i++] == 'e')
+	{
+		int sign2 = (s[i] == '-') ? -1 : 1;
+		if (s[i] == '+' || s[i] == '-')
+			i++;
+
+		double exp = 0.0;
+		while (isdigit(s[i]))
+		{
+			exp = 10.0 * exp + (s[i] - '0');
+			i++;
+		}
+
+		// We've got the exponent, now we gotta make it affect the power
+
+		while(exp--)
+			power *= (sign2 > 0) ? 0.1 : 10.0;
+	}
+
+	return sign * val / power;
+}
+
+double C_atof(char s[])
+{
+	double val, power;
+	int i, sign;
+
+	// Skip white-space
+	for (i = 0; isspace(s[i]); i++)
+		;
+	
+	sign = (s[i] == '-') ? -1 : 1;
+
+	if (s[i] == '+' || s[i] == '-')
+		i++;
+
+	for (val = 0.0; isdigit(s[i]); i++)
+		val = 10.0 * val + (s[i] - '0');
+	
+	if (s[i] == '.')
+		i++;
+	
+	for (power = 1.0; isdigit(s[i]); i++)
+	{
+		val = 10.0 * val + (s[i] - '0');
+		power *= 10.0;
+	}
+
+	return sign * val / power;
+}
+
+// 4.1 - Basics of Functions
+// ----------------------------------------------------------------------------------------------------------
 #define MAXLINE_4 1000
 // EX 4-1 DONE Write the function strrindex(s, t), which returns the position of the rightmost ocurrance of t in s
 // or -1 if there is none

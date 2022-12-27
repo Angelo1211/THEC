@@ -10,15 +10,10 @@
 int
 main(void)
 {
-	int result = -1;
-	result = AO_strrindex("The test string test is a testThe test string test is a test", "test");
-	printf("The result was %d\n", result);
-
-	result = AO_strrindex("The test string test is a", "test");
-	printf("The result was %d\n", result);
-
-	result = AO_strrindex("test The string is a ", "test");
-	printf("The result was %d\n", result);
+	char test[]  = "3.14159265359";
+	char test2[] = "123.45e-6";
+	
+	printf("The input was %s\nAfter parsing we got %0.10f\n", test2, AO_atof(test2));
 
 	if (PAUSE_ON_EXIT) 
 		Console_Delay_Exit();

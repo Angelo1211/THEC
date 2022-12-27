@@ -8,6 +8,10 @@
 // Chapter 4 - Functions and Program Structure
 // ----------------------------------------------------------------------------------------------------------
 
+// 4.2 - Functions Returning Non-Integers
+double AO_atof(char s[]);
+double C_atof(char s[]);
+
 // 4.1 - Basics of Functions
 int AO_strrindex(char s[], char t[]);
 int C_minigrep(char pattern[]);
