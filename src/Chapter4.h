@@ -7,6 +7,8 @@
 
 // Chapter 4 - Functions and Program Structure
 // ----------------------------------------------------------------------------------------------------------
+// 4.3 - External Variables
+void C_calculator(void);
 
 // 4.2 - Functions Returning Non-Integers
 double AO_atof(char s[]);

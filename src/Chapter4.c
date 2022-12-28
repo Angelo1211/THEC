@@ -1,5 +1,80 @@
 #include "Chapter4.h"
 
+// 4.3 - External Variables
+// ----------------------------------------------------------------------------------------------------------
+double pop(void);
+#define MAXOP 100
+#define NUMBER '0'
+void C_calculator(void)
+{
+	int type;
+	double op2;
+	char s[MAXOP];
+
+	while ( (type = getop(s))  != EOF)
+	{
+		switch (type)
+		{
+			case NUMBER:
+			{
+				push(atof(s));
+			}break;
+
+			case '+':
+			{
+
+			}break;
+
+			case '-':
+			{
+
+			}break;
+
+			case '*':
+			{
+
+			}break;
+
+			case '/':
+			{
+
+			}break;
+
+			case '\n':
+			{
+				printf("\t%.8g\n", pop());
+			}break;
+
+			default:
+			{
+				printf("error: unknown command %s\n", s);
+			}break;
+		}
+	}
+}
+
+#define MAXVAL 100
+int sp = 0;
+double val[MAXVAL];
+
+void push(double f)
+{
+	if (sp < MAXVAL)
+		val[sp++] = f;
+	else
+		printf("error: stack full, can't push %g\n", f);
+}
+
+double pop(void)
+{
+	if (sp > 0)
+		return val[--sp];
+	else
+		printf("error: stack empty\n");
+		return 0.0;
+
+}
+
 // 4.2 - Functions Returning Non-Integers
 // ----------------------------------------------------------------------------------------------------------
 // EX 4-2 TODO Extend atof to handle scientific notation of the form 123.45e-6
@@ -36,8 +111,9 @@ double AO_atof(char s[])
 		i++;
 	}
 
-	if (s[i++] == 'e')
+	if (s[i] == 'e' ||  s[i] == 'E')
 	{
+		i++;
 		int sign2 = (s[i] == '-') ? -1 : 1;
 		if (s[i] == '+' || s[i] == '-')
 			i++;
