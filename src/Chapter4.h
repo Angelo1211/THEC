@@ -8,6 +8,11 @@
 // Chapter 4 - Functions and Program Structure
 // ----------------------------------------------------------------------------------------------------------
 // 4.3 - External Variables
+int getch(void);
+void ungetch(int);
+int getop(char s[]);
+void push(double f);
+double pop(void);
 void C_calculator(void);
 
 // 4.2 - Functions Returning Non-Integers

@@ -2,7 +2,6 @@
 
 // 4.3 - External Variables
 // ----------------------------------------------------------------------------------------------------------
-double pop(void);
 #define MAXOP 100
 #define NUMBER '0'
 void C_calculator(void)
@@ -22,22 +21,27 @@ void C_calculator(void)
 
 			case '+':
 			{
-
-			}break;
-
-			case '-':
-			{
-
+				push(pop() + pop());
 			}break;
 
 			case '*':
 			{
+				push(pop() * pop());
+			}break;
 
+			case '-':
+			{
+				double op2 = pop();
+				push(pop() - op2);
 			}break;
 
 			case '/':
 			{
-
+				double op2 = pop();
+				if (op2 != 0.0)
+					push(pop() - op2);
+				else 
+					printf("error: dividing by zero.\n");
 			}break;
 
 			case '\n':
@@ -72,6 +76,60 @@ double pop(void)
 	else
 		printf("error: stack empty\n");
 		return 0.0;
+}
+
+// This is by far the ugliest function I've seen in this book.
+// So needlessly obfuscated and compact
+int getop(char s[])
+{
+	int i, c;
+
+	// Skip whitespace
+	while ((s[0] = c = getch()) == ' ' || c == '\t')
+		;
+
+	//? What is this
+	s[1] = '\0';
+
+	// Not a number
+	if (!isdigit(c) && c != '.')
+		return c;
+	
+	i = 0;
+
+	// collect integer part
+	if (isdigit(c))
+		while (isdigit(s[++i] = c = getch()))
+			;
+	
+	// Collect fractional part
+	if (c == '.')
+		while (isdigit(s[++i] = c = getch()))
+			;
+	
+	s[i] = '\0';
+
+	if (c != EOF)
+		ungetch(c);
+	
+	return NUMBER;
+}
+
+#define BUFSIZE 100
+char buf[BUFSIZE];
+int bufp = 0;
+
+int getch(void)
+{
+	return (bufp > 0) ? buf[--bufp] : getchar();
+}
+
+void ungetch(int c)
+{
+	if (bufp >= BUFSIZE)
+		printf("ungetch: too many characters\n");
+	else
+		buf[bufp++] = c;
 
 }
 
