@@ -2,6 +2,8 @@
 
 // 4.3 - External Variables
 // ----------------------------------------------------------------------------------------------------------
+// EX 4-3 DONE Given the basic framework, it's straightforward to extend the calculator. Add the modulus operator
+// and provisions for negative numbers.
 #define MAXOP 100
 #define NUMBER '0'
 void C_calculator(void)
@@ -27,6 +29,14 @@ void C_calculator(void)
 			case '*':
 			{
 				push(pop() * pop());
+			}break;
+
+			case '%':
+			{
+				int op2 = abs((int)pop());
+				int op1 = abs((int)pop());
+
+				push(op1 % op2);
 			}break;
 
 			case '-':
