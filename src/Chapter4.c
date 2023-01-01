@@ -5,9 +5,17 @@
 // EX 4-3 DONE Given the basic framework, it's straightforward to extend the calculator. Add the modulus operator
 // and provisions for negative numbers.
 // EX 4-4 TODO Add commands to print the top element of the stack without popping, to duplicate it and to swap the 
-// top two elements. Add a commmand to clear the stack
+// top two elements. Add a commmand to clear the stack.
 #define MAXOP 100
-#define NUMBER '0'
+enum Commands
+{
+	NUMBER,
+	PRINT,
+	DUPE,
+	SWAP,
+	CLEAR,
+};
+
 void C_calculator(void)
 {
 	int type;
