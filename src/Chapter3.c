@@ -43,7 +43,7 @@ void AO_itob(int n, char s[], int b)
 	int i = 0;
 	do
 	{
-		int rem = a % b;
+		char rem = (char)a % b;
 		s[i++] = (rem < 10) ? '0' + rem : 'A' + (rem - 10);
 	} while((a /= b) > 0);
 

@@ -19,10 +19,9 @@ enum Commands
 void C_calculator(void)
 {
 	int type;
-	double op2;
 	char s[MAXOP];
 
-	while ( (type = getop(s))  != EOF)
+	while ( (type = C_getop(s))  != EOF)
 	{
 		switch (type)
 		{
@@ -79,12 +78,12 @@ void C_calculator(void)
 
 #define MAXVAL 100
 int sp = 0;
-double val[MAXVAL];
+double _val[MAXVAL];
 
 void push(double f)
 {
 	if (sp < MAXVAL)
-		val[sp++] = f;
+		_val[sp++] = f;
 	else
 		printf("error: stack full, can't push %g\n", f);
 }
@@ -92,7 +91,7 @@ void push(double f)
 double pop(void)
 {
 	if (sp > 0)
-		return val[--sp];
+		return _val[--sp];
 	else
 		printf("error: stack empty\n");
 		return 0.0;
@@ -100,12 +99,15 @@ double pop(void)
 
 // This is by far the ugliest function I've seen in this book.
 // So needlessly obfuscated and compact
-int getop(char s[])
+// 2023-01-02 This BS is flagging all kinds of warnings due to type 
+// 			  conversion issues
+int C_getop(char s[])
 {
-	int i, c;
+	int i;
+	char c;
 
 	// Skip whitespace
-	while ((s[0] = c = getch()) == ' ' || c == '\t')
+	while ((s[0] = c = (char)getch()) == ' ' || c == '\t')
 		;
 
 	//? What is this
@@ -119,12 +121,12 @@ int getop(char s[])
 
 	// collect integer part
 	if (isdigit(c))
-		while (isdigit(s[++i] = c = getch()))
+		while (isdigit(s[++i] = c = (char)getch()))
 			;
 	
 	// Collect fractional part
 	if (c == '.')
-		while (isdigit(s[++i] = c = getch()))
+		while (isdigit(s[++i] = c = (char)getch()))
 			;
 	
 	s[i] = '\0';
@@ -136,7 +138,7 @@ int getop(char s[])
 }
 
 #define BUFSIZE 100
-char buf[BUFSIZE];
+int buf[BUFSIZE];
 int bufp = 0;
 
 int getch(void)
@@ -150,7 +152,6 @@ void ungetch(int c)
 		printf("ungetch: too many characters\n");
 	else
 		buf[bufp++] = c;
-
 }
 
 // 4.2 - Functions Returning Non-Integers
@@ -249,8 +250,8 @@ double C_atof(char s[])
 int AO_strrindex(char s[], char t[])
 {
 	int result = -1;
-	int s_len = strlen(s);
-	int t_len = strlen(t);
+	int s_len = (int)strlen(s);
+	int t_len = (int)strlen(t);
 
 	if (t_len == 0 || s_len == 0 || (s_len < t_len))
 		return result;
@@ -329,18 +330,18 @@ int C_strindex(char s[], char t[])
 
 int C_getline_4(char s[], int lim)
 {
-	int c, i;
-	i = 0;
+	int c = 0;
+	int i = 0;
 
 	// While you've not travelled a string as large as the limit
 	// And your next char is not the EOF char (or a new line)
 	// Keep grabbing the chars
 	while (--lim > 0 && (c = getchar()) != EOF && c != '\n')
-		s[i++] = c;
+		s[i++] = (char)c;
 	
 	// If you were a newline you should write it
 	if (c == '\n')
-		s[i++] =c;
+		s[i++] = (char)c;
 	
 	// Also write the null terminating char at the end
 	s[i] = '\0';
