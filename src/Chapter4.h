@@ -12,6 +12,10 @@ int getch(void);
 void ungetch(int);
 void push(double f);
 double pop(void);
+double peek(void);
+void dupe(void);
+void swap(void);
+void clear(void);
 int C_getop(char s[]);
 void C_calculator(void);
 

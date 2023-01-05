@@ -4,28 +4,26 @@
 // ----------------------------------------------------------------------------------------------------------
 // EX 4-3 DONE Given the basic framework, it's straightforward to extend the calculator. Add the modulus operator
 // and provisions for negative numbers.
-// EX 4-4 TODO Add commands to print the top element of the stack without popping, to duplicate it and to swap the 
+// EX 4-4 DONE Add commands to print the top element of the stack without popping, to duplicate it and to swap the 
 // top two elements. Add a commmand to clear the stack.
 #define MAXOP 100
-enum Commands
+enum Calculator_Commands
 {
-	NUMBER,
-	PRINT,
-	DUPE,
-	SWAP,
-	CLEAR,
+	CC_NUMBER,
 };
 
 void C_calculator(void)
 {
 	int type;
 	char s[MAXOP];
+	bool showing_top = false;
 
 	while ( (type = C_getop(s))  != EOF)
 	{
+		
 		switch (type)
 		{
-			case NUMBER:
+			case CC_NUMBER:
 			{
 				push(atof(s));
 			}break;
@@ -63,9 +61,36 @@ void C_calculator(void)
 					printf("error: dividing by zero.\n");
 			}break;
 
+			// 4-4 Show the top of the stack without popping
+			case '?':
+			{
+				showing_top = true;
+				printf("\t%.8g\n", peek());
+			}break;
+
+			// 4-4 Duplicating the top of the stack
+			case '~':
+			{
+				dupe();
+			}break;
+
+			// 4-4 Swapping top stack elements
+			case '$':
+			{
+				swap();
+			}break;
+
+			// 4-4 Clear the stack
+			case '`':
+			{
+				clear();
+			}break;
+
 			case '\n':
 			{
-				printf("\t%.8g\n", pop());
+				if (!showing_top)
+					printf("\t%.8g\n", pop());
+				showing_top = false;
 			}break;
 
 			default:
@@ -95,6 +120,50 @@ double pop(void)
 	else
 		printf("error: stack empty\n");
 		return 0.0;
+}
+
+double peek(void)
+{
+	if (sp > 0)
+		return _val[sp - 1];
+	else
+		printf("error: stack empty\n");
+		return 0.0;
+}
+
+void dupe(void)
+{
+	if ( sp <= 0 )
+	{
+		printf("error: stack empty\n");
+		return;
+	}
+
+	double val = pop();
+	push(val);
+	push(val);
+}
+
+void swap(void)
+{
+	if ( sp <= 1 )
+	{
+		printf("error: stack doesn't have enough things in it\n");
+		return;
+	}
+
+	double a = pop();
+	double b = pop();
+	push(a);
+	push(b);
+}
+
+void clear(void)
+{
+	while (sp > 0)
+	{
+		pop();
+	}
 }
 
 // This is by far the ugliest function I've seen in this book.
@@ -134,7 +203,7 @@ int C_getop(char s[])
 	if (c != EOF)
 		ungetch(c);
 	
-	return NUMBER;
+	return CC_NUMBER;
 }
 
 #define BUFSIZE 100
