@@ -6,6 +6,8 @@
 // and provisions for negative numbers.
 // EX 4-4 DONE Add commands to print the top element of the stack without popping, to duplicate it and to swap the 
 // top two elements. Add a commmand to clear the stack.
+// EX 4-5 TODO Add access to library functions like sin, exp, and pow. See <math.h> in Appendix B, Section 4.
+// Check: https://clc-wiki.net/wiki/K%26R2_solutions:Chapter_4:Exercise_5
 #define MAXOP 100
 enum Calculator_Commands
 {
@@ -20,7 +22,6 @@ void C_calculator(void)
 
 	while ( (type = C_getop(s))  != EOF)
 	{
-		
 		switch (type)
 		{
 			case CC_NUMBER:
@@ -160,10 +161,7 @@ void swap(void)
 
 void clear(void)
 {
-	while (sp > 0)
-	{
-		pop();
-	}
+	sp = 0;
 }
 
 // This is by far the ugliest function I've seen in this book.
