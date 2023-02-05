@@ -52,6 +52,7 @@ void AO_DEBUG_Print_Tab_Stops(int tabLength, int tabStopCount);
 void AO_DEBUG_Print_Visualized_WhiteSpace(char str[], int tab_stop_length);
 
 // Strings
+#define STRCMP(a ,b) (0 == strcmp(a, b))
 int AO_Find_Word_Length(char str[], int index);
 int C_getline(char line[], int maxline);
 void C_copy(char to[], char from[]);

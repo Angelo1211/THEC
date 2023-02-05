@@ -16,6 +16,7 @@ double peek(void);
 void dupe(void);
 void swap(void);
 void clear(void);
+void dealWithName(char s[]);
 int C_getop(char s[]);
 void C_calculator(void);
 

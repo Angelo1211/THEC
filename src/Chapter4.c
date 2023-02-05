@@ -12,6 +12,7 @@
 enum Calculator_Commands
 {
 	CC_NUMBER,
+	CC_IDENTIFIER,
 };
 
 void C_calculator(void)
@@ -27,6 +28,11 @@ void C_calculator(void)
 			case CC_NUMBER:
 			{
 				push(atof(s));
+			}break;
+
+			case CC_IDENTIFIER:
+			{
+				dealWithName(s);
 			}break;
 
 			case '+':
@@ -106,6 +112,33 @@ void C_calculator(void)
 int sp = 0;
 double _val[MAXVAL];
 
+void dealWithName(char s[])
+{
+	// f64 op2 = 0.0;
+
+	if (STRCMP(s, "sin"))
+	{
+
+	}
+	else if (STRCMP(s, "cos"))
+	{
+
+	}
+	else if (STRCMP(s, "exp"))
+	{
+
+	}
+	else if (STRCMP(s, "pow"))
+	{
+
+	}
+	else
+	{
+		// Unrecognized keyword
+
+	}
+}
+
 void push(double f)
 {
 	if (sp < MAXVAL)
@@ -170,15 +203,13 @@ void clear(void)
 // 			  conversion issues
 int C_getop(char s[])
 {
-	int i;
-	char c;
+	int i = 0;
+	int c = 0;
 
 	// Skip whitespace
-	while ((s[0] = c = (char)getch()) == ' ' || c == '\t')
+	while ((s[0] = (char)(c = getch())) == ' ' || c == '\t')
 		;
-
-	//? What is this
-	s[1] = '\0';
+	s[1] = '\0'; //? What is this
 
 	// Not a number
 	if (!isdigit(c) && c != '.')
@@ -188,12 +219,12 @@ int C_getop(char s[])
 
 	// collect integer part
 	if (isdigit(c))
-		while (isdigit(s[++i] = c = (char)getch()))
+		while (isdigit(s[++i] = (char)(c = getch())))
 			;
 	
 	// Collect fractional part
 	if (c == '.')
-		while (isdigit(s[++i] = c = (char)getch()))
+		while (isdigit(s[++i] = (char)(c = getch())))
 			;
 	
 	s[i] = '\0';
