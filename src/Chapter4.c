@@ -6,7 +6,7 @@
 // and provisions for negative numbers.
 // EX 4-4 DONE Add commands to print the top element of the stack without popping, to duplicate it and to swap the 
 // top two elements. Add a commmand to clear the stack.
-// EX 4-5 TODO Add access to library functions like sin, exp, and pow. See <math.h> in Appendix B, Section 4.
+// EX 4-5 DONE Add access to library functions like sin, exp, and pow. See <math.h> in Appendix B, Section 4.
 // Check: https://clc-wiki.net/wiki/K%26R2_solutions:Chapter_4:Exercise_5
 #define MAXOP 100
 enum Calculator_Commands
@@ -114,28 +114,29 @@ double _val[MAXVAL];
 
 void dealWithName(char s[])
 {
-	// f64 op2 = 0.0;
 
 	if (STRCMP(s, "sin"))
 	{
-
+		push(sin(pop()));
 	}
 	else if (STRCMP(s, "cos"))
 	{
-
+		push(cos(pop()));
 	}
 	else if (STRCMP(s, "exp"))
 	{
-
+		push(exp(pop()));
 	}
 	else if (STRCMP(s, "pow"))
 	{
-
+		f64 op2 = 0.0;
+		push(pow(pop(), op2));
 	}
 	else
 	{
 		// Unrecognized keyword
-
+		printf("Unrecognized keyword!.\n");
+		clear();
 	}
 }
 
@@ -201,38 +202,50 @@ void clear(void)
 // So needlessly obfuscated and compact
 // 2023-01-02 This BS is flagging all kinds of warnings due to type 
 // 			  conversion issues
+// 2023-02-06 Those are fixed easily nowadays, but it required some creative
+//			  use of right associativity and casting.
 int C_getop(char s[])
 {
+	int r = 0;
 	int i = 0;
 	int c = 0;
 
-	// Skip whitespace
+	// Skip whitespace, until the first non space or tab char.
+	// Copy that char into s and add a null terminator
 	while ((s[0] = (char)(c = getch())) == ' ' || c == '\t')
 		;
-	s[1] = '\0'; //? What is this
+	s[1] = '\0'; 
 
-	// Not a number
-	if (!isdigit(c) && c != '.')
-		return c;
-	
-	i = 0;
+	// Check if we've found an identifier
+	if ( isalpha(c) )
+	{
+		while ( isalpha(s[++i] = (char)(c = getch())))
+			;
+		r = CC_IDENTIFIER;
+	}
+	else
+	{
+		// Not a number, probably an operator?
+		if (!isdigit(c) && c != '.')
+			return c;
+		
+		// collect integer part
+		if (isdigit(c))
+			while (isdigit(s[++i] = (char)(c = getch())))
+				;
+		
+		// Collect fractional part
+		if (c == '.')
+			while (isdigit(s[++i] = (char)(c = getch())))
+				;
+		r = CC_NUMBER;
+	}
 
-	// collect integer part
-	if (isdigit(c))
-		while (isdigit(s[++i] = (char)(c = getch())))
-			;
-	
-	// Collect fractional part
-	if (c == '.')
-		while (isdigit(s[++i] = (char)(c = getch())))
-			;
-	
 	s[i] = '\0';
-
 	if (c != EOF)
 		ungetch(c);
 	
-	return CC_NUMBER;
+	return r;
 }
 
 #define BUFSIZE 100
