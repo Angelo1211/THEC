@@ -11,8 +11,11 @@
 int
 main(void)
 {
-	C_calculator();
+    int result = 0;
+    AO_getint(&result);
 
-	if (PAUSE_ON_EXIT) 
+    printf("Result: %d\n", result);
+
+	if (PAUSE_ON_EXIT)
 		Console_Delay_Exit();
 }

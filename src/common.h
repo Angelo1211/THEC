@@ -9,6 +9,7 @@
 #include <limits.h>
 #include <float.h>
 #include <time.h>
+#include <math.h>
 #include <string.h>
 
 typedef uint8_t u8;
