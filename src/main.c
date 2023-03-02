@@ -4,17 +4,17 @@
 #include "Chapter4.h"
 #include "Chapter5.h"
 
-#define PAUSE_ON_EXIT 0
+#define PAUSE_ON_EXIT 1
 
 #define MAX_STRING (1 << 10)
 
 int
 main(void)
 {
-    int result = 0;
-    AO_getint(&result);
+	float result = 0.0f;
+	int ret = AO_getfloat(&result);
 
-    printf("Result: %d\n", result);
+	printf("Result: %f\nRet: %d\n", result, ret);
 
 	if (PAUSE_ON_EXIT)
 		Console_Delay_Exit();
