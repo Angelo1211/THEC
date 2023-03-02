@@ -8,5 +8,6 @@
 
 // Chapter 5 - Pointers and Arrays
 // ----------------------------------------------------------------------------------------------------------
+int AO_getfloat(float *f);
 int C_getint(int *pn);
 int AO_getint(int *pn);
